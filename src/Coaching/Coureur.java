@@ -74,12 +74,15 @@ public class Coureur {
     public List<Seance> getPlanEntraiement() {
         return planEntraiement;
     }
-///////////////////////////////
+
+    ///////////////////////////////
     // GESTION PLAN ENTRAINEMENT //
     ///////////////////////////////
 
     public void creerPlanEntrainement() {
         this.planEntraiement = Coach.getInstance().planEntrainement(this) ;
     }
+
+
 }
 

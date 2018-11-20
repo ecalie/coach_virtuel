@@ -11,4 +11,16 @@ public class Seance {
         this.durée = durée;
         this.date = date;
     }
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public int getDurée() {
+        return durée;
+    }
+
+    public Date getDate() {
+        return date;
+    }
 }

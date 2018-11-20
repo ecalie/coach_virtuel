@@ -45,14 +45,14 @@ public class Date {
             }
         }
 
-        if (jour-(int)jour == 0)
+        if (jour - (int) jour == 0)
             return new Date((int) jour, mois, annee);
         else
             return new Date((int) jour + 1, mois, annee);
     }
 
     /**
-     * Calculer l'écart entre la date et une date de référence.
+     * Calculer l'écart entre la date et une date de référence (01/01/0000).
      */
     public int ecart() {
         int tmpMois = 0;
@@ -69,8 +69,8 @@ public class Date {
     /**
      * Calculer l'écart en nombre de jours entre deux dates.
      */
-    public int ecart(Date d) {
-        return d.ecart() - this.ecart();
+    public int moins(Date d) {
+        return this.ecart() - d.ecart();
     }
 
     /**
@@ -84,6 +84,14 @@ public class Date {
     @Override
     public String toString() {
         return this.jour + "/" + this.mois + "/" + this.annee;
+    }
+
+    /**
+     * Créer une date à partir d'une chaîne de caractères de la forme jj/mm/aaaa.
+     */
+    public static Date toDate(String date) {
+        String[] donnees = date.split("/");
+        return new Date(Integer.parseInt(donnees[0]), Integer.parseInt(donnees[1]), Integer.parseInt(donnees[2]));
     }
 
     enum Mois {
