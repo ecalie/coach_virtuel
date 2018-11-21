@@ -1,9 +1,11 @@
 package Coaching;
 
+import patron_observer.Observable;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Coureur {
+public class Coureur extends Observable {
 
     ///////////////
     // ATTRIBUTS //
@@ -32,7 +34,7 @@ public class Coureur {
     /**
      * Liste des séances pour remplir le prochain objectif.
      */
-    private List<Seance> planEntraiement;
+    private List<Seance> planEntrainement;
 
     //////////////////
     // CONSTRUCTEUR //
@@ -40,7 +42,7 @@ public class Coureur {
 
     public Coureur() {
         this.performances = new ArrayList<>();
-        this.planEntraiement = new ArrayList<>();
+        this.planEntrainement = new ArrayList<>();
     }
 
     ////////////////
@@ -71,18 +73,20 @@ public class Coureur {
         return dateLimite;
     }
 
-    public List<Seance> getPlanEntraiement() {
-        return planEntraiement;
+    public List<Seance> getPlanEntrainement() {
+        return planEntrainement;
     }
 
+    public void setPlanEntrainement(List<Seance> planEntrainement) {
+        this.planEntrainement = planEntrainement;
+    }
     ///////////////////////////////
     // GESTION PLAN ENTRAINEMENT //
     ///////////////////////////////
 
     public void creerPlanEntrainement() {
-        this.planEntraiement = Coach.getInstance().planEntrainement(this) ;
+        this.planEntrainement = Coach.getInstance().planEntrainement(this) ;
     }
-
 
 }
 

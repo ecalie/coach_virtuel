@@ -17,7 +17,7 @@ public class ActionAfficherSeance implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        Seance seance = fenetre.getCoureur().getPlanEntraiement().get(0);
+        Seance seance = fenetre.getCoureur().getPlanEntrainement().get(0);
         FicheSeance fs = new FicheSeance(seance.getDistance(), seance.getDurée(), seance.getDate());
         fenetre.getDesktop().add(fs);
         fs.setVisible(true);

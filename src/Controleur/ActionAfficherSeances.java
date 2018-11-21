@@ -20,7 +20,7 @@ public class ActionAfficherSeances implements ActionListener {
     public void actionPerformed(ActionEvent actionEvent) {
         int x = 0;
         int y = 0;
-        for (Seance seance : fenetre.getCoureur().getPlanEntraiement()) {
+        for (Seance seance : fenetre.getCoureur().getPlanEntrainement()) {
             FicheSeance fs = new FicheSeance(seance.getDistance(), seance.getDurée(), seance.getDate());
             fs.setLocation(new Point(x, y));
             x += 185;
