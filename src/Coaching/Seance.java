@@ -3,12 +3,12 @@ package Coaching;
 public class Seance {
 
     private int distance;
-    private int durée;
+    private int duree;
     private Date date;
 
-    public Seance(int distance, int durée, Date date) {
+    public Seance(int distance, int duree, Date date) {
         this.distance = distance;
-        this.durée = durée;
+        this.duree = duree;
         this.date = date;
     }
 
@@ -16,11 +16,23 @@ public class Seance {
         return distance;
     }
 
-    public int getDurée() {
-        return durée;
+    public void setDistance(int distance) {
+        this.distance = distance;
+    }
+
+    public int getDuree() {
+        return duree;
+    }
+
+    public void setDuree(int duree) {
+        this.duree = duree;
     }
 
     public Date getDate() {
         return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }
