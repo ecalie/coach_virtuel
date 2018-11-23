@@ -1,10 +1,8 @@
 package Controleur;
 
-import Coaching.Coureur;
 import Coaching.Date;
 import vue.FicheObjectifs;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -24,5 +22,8 @@ public class ActionValiderFicheObjectifs implements ActionListener {
         this.ficheObjectifs.getCoureur().setObjectifDistance(Integer.parseInt(this.ficheObjectifs.getObjectifDistance().getText()));
 
         this.ficheObjectifs.setVisible(false);
+
+        // notifier le coach
+        this.ficheObjectifs.getCoureur().notifierObservateurs();
     }
 }

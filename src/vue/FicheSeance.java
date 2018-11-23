@@ -1,6 +1,9 @@
 package vue;
 
+import Coaching.Coureur;
 import Coaching.Date;
+import Coaching.Seance;
+import Controleur.ActionTerminerSeance;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,21 +14,44 @@ public class FicheSeance extends JInternalFrame {
     private JLabel duree;
     private JLabel date;
 
-    public FicheSeance(int distance, int duree, Date date) {
+    private Coureur coureur;
+    private Seance seance;
+
+
+    public FicheSeance(Coureur coureur, Seance seance) {
         super("Séance", false, true, false, true);
 
-        this.distance = new JLabel(distance + "km");
-        this.duree = new JLabel(duree + "minutes");
-        this.date = new JLabel(date.toString());
+        this.distance = new JLabel(seance.getDistance() + "km");
+        this.duree = new JLabel(seance.getDuree() + "minutes");
+        this.date = new JLabel(seance.getDate().toString());
 
-        this.getContentPane().setLayout(new GridLayout(3,2));
-        this.getContentPane().add(new JLabel("Distance"));
-        this.getContentPane().add(this.distance);
-        this.getContentPane().add(new JLabel("Durée"));
-        this.getContentPane().add(this.duree);
-        this.getContentPane().add(new JLabel("Date"));
-        this.getContentPane().add(this.date);
+        this.coureur = coureur;
+        this.seance = seance;
 
-        this.setSize(new Dimension(175,70));
+        JPanel form = new JPanel(new GridLayout(3,2));
+        this.getContentPane().setLayout(new BorderLayout());
+
+        form.add(new JLabel("Distance"));
+        form.add(this.distance);
+        form.add(new JLabel("Durée"));
+        form.add(this.duree);
+        form.add(new JLabel("Date"));
+        form.add(this.date);
+
+        this.getContentPane().add(form, BorderLayout.CENTER);
+
+        JButton btn = new JButton("Séance terminée");
+        btn.addActionListener(new ActionTerminerSeance(this));
+        this.getContentPane().add(btn, BorderLayout.SOUTH);
+
+        this.pack();
+    }
+
+    public Coureur getCoureur() {
+        return coureur;
+    }
+
+    public Seance getSeance() {
+        return seance;
     }
 }

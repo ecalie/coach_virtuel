@@ -21,7 +21,7 @@ public class ActionAfficherSeances implements ActionListener {
         int x = 0;
         int y = 0;
         for (Seance seance : fenetre.getCoureur().getPlanEntrainement()) {
-            FicheSeance fs = new FicheSeance(seance.getDistance(), seance.getDurée(), seance.getDate());
+            FicheSeance fs = new FicheSeance(fenetre.getCoureur(), seance);
             fs.setLocation(new Point(x, y));
             x += 185;
             if (x + 175 > fenetre.getWidth()) {

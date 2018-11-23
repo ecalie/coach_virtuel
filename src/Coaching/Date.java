@@ -28,7 +28,6 @@ public class Date {
     public static Date date(int ecart) {
         int annee = (int) (ecart / 365.25);
         double reste1 = ecart % 365.25;
-        System.out.println(reste1);
 
         int mois = 1;
         int tmp = 0;

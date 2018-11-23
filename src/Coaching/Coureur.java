@@ -43,6 +43,7 @@ public class Coureur extends Observable {
     public Coureur() {
         this.performances = new ArrayList<>();
         this.planEntrainement = new ArrayList<>();
+        ajouterObservateur(Coach.getInstance());
     }
 
     ////////////////
@@ -80,12 +81,17 @@ public class Coureur extends Observable {
     public void setPlanEntrainement(List<Seance> planEntrainement) {
         this.planEntrainement = planEntrainement;
     }
+
     ///////////////////////////////
     // GESTION PLAN ENTRAINEMENT //
     ///////////////////////////////
 
     public void creerPlanEntrainement() {
         this.planEntrainement = Coach.getInstance().planEntrainement(this) ;
+    }
+
+    public void terminerSeance(Seance seance) {
+        this.planEntrainement.remove(seance);
     }
 
 }

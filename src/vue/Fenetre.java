@@ -4,7 +4,6 @@ import Coaching.Coureur;
 import Controleur.ActionAfficherSeance;
 import Controleur.ActionAfficherSeances;
 import Controleur.ActionDefinirObjectifs;
-import Controleur.ActionDefinirPlan;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,15 +39,12 @@ public class Fenetre extends JFrame {
         // Les menus
         JMenu menuEntr = new JMenu("Plan entrainement");
         JMenuItem menuItemDef = new JMenuItem("Définir mes objectifs");
-        JMenuItem menuItemPlan = new JMenuItem("Définir un plan d'entraînement");
         JMenuItem menuItemSeance = new JMenuItem("Voir la prochaine séance");
         JMenuItem menuItemSeances = new JMenuItem("Voir toutes les prochaines séances");
         menuItemDef.addActionListener(new ActionDefinirObjectifs(this));
-        menuItemPlan.addActionListener(new ActionDefinirPlan(this));
         menuItemSeance.addActionListener(new ActionAfficherSeance(this));
         menuItemSeances.addActionListener(new ActionAfficherSeances(this));
         menuEntr.add(menuItemDef);
-        menuEntr.add(menuItemPlan);
         menuEntr.add(menuItemSeance);
         menuEntr.add(menuItemSeances);
 
@@ -56,6 +52,7 @@ public class Fenetre extends JFrame {
         barre.add(menuEntr);
         this.setJMenuBar(barre);
 
+        this.setMinimumSize(new Dimension(500,200));
         this.setExtendedState(MAXIMIZED_BOTH);
         this.setVisible(true);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
