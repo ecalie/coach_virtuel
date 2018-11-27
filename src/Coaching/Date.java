@@ -7,7 +7,7 @@ public class Date {
     private int annee;
     private int heure;
     private int minute;
-    //   private Meteo prevision;
+    //private Meteo prevision;
 
 
     public Date(int jour, int mois, int annee, int heure, int minute) {
@@ -20,6 +20,10 @@ public class Date {
 
     public Date(int jour, int mois, int annee) {
         this(jour, mois, annee, 0, 0);
+    }
+
+    public int getMois() {
+        return mois;
     }
 
     /**
@@ -104,7 +108,7 @@ public class Date {
         AOUT(8, 31),
         SEPTEMBRE(9, 30),
         OCTOBRE(10, 31),
-        NOVEBRE(11, 30),
+        NOVEMBRE(11, 30),
         DECEMBRE(12, 31);
 
         private int mois;

@@ -23,7 +23,7 @@ public class SeanceFabrique {
         if(seancesPartagees.containsKey(indiceSeance)) {
             Seance seance = seancesPartagees.get(indiceSeance);
             //exemple de mise à jour contextuelle
-            if (meteo == Meteo.soleil)
+            if (meteo == Meteo.pluie)
                 seance.setDuree((int) (seance.getDuree()*1.25));
             else if (meteo == Meteo.neige)
                 seance.setDuree((int) (seance.getDuree()*1.5));

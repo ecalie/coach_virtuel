@@ -3,7 +3,8 @@ package Meteo;
 public enum Meteo {
 
     soleil,
-    pluit,
-    neige;
+    pluie,
+    neige,
+    nuages
 
 }
