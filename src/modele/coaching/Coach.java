@@ -27,9 +27,8 @@ public class Coach implements IObserver {
 
     public List<Seance> planEntrainement(Coureur coureur) {
         // calculer le nombre de séances (une tous 3 jours)
-        java.util.Date tmp = new java.util.Date();
         // on commence demain
-        Date debut = new Date(tmp.getDate() + 1, tmp.getMonth() + 1, tmp.getYear() + 1900);
+        Date debut = Date.today();
         Date fin = coureur.getDateLimite();
         int nbJours = fin.moins(debut) + 1;
         int nbSeances = (nbJours) / 3 + (nbJours % 3 == 0 ? 0 : 1);

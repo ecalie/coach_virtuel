@@ -1,5 +1,5 @@
 package modele.coaching;
-import Meteo.Meteo;
+import modele.meteo.Meteo;
 
 import java.util.Hashtable;
 

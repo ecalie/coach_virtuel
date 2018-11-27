@@ -97,6 +97,11 @@ public class Date {
         return new Date(Integer.parseInt(donnees[0]), Integer.parseInt(donnees[1]), Integer.parseInt(donnees[2]));
     }
 
+    public static Date today() {
+        java.util.Date tmp = new java.util.Date();
+        return new Date(tmp.getDate() + 1, tmp.getMonth() + 1, tmp.getYear() + 1900);
+    }
+
     enum Mois {
         JANVIER(1, 31),
         FEVRIER(2, 28),
