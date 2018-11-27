@@ -1,6 +1,6 @@
-package Controleur;
+package controleur;
 
-import Coaching.Date;
+import modele.coaching.Date;
 import vue.FicheObjectifs;
 
 import java.awt.event.ActionEvent;

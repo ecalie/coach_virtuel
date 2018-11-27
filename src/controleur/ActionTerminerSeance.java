@@ -1,6 +1,5 @@
-package Controleur;
+package controleur;
 
-import vue.Fenetre;
 import vue.FicheSeance;
 
 import java.awt.event.ActionEvent;

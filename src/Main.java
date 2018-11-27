@@ -1,5 +1,3 @@
-import java.util.Scanner;
-import Coaching.Date;
 import vue.Fenetre;
 
 public class Main {

@@ -1,9 +1,9 @@
 package vue;
 
-import Coaching.Coureur;
-import Controleur.ActionAfficherSeance;
-import Controleur.ActionAfficherSeances;
-import Controleur.ActionDefinirObjectifs;
+import modele.coaching.Coureur;
+import controleur.ActionAfficherSeance;
+import controleur.ActionAfficherSeances;
+import controleur.ActionDefinirObjectifs;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,6 +37,7 @@ public class Fenetre extends JFrame {
         this.desktop.add(this.ficheObjectifs);
 
         // Les menus
+        //      - menu entraiement
         JMenu menuEntr = new JMenu("Plan entrainement");
         JMenuItem menuItemDef = new JMenuItem("Définir mes objectifs");
         JMenuItem menuItemSeance = new JMenuItem("Voir la prochaine séance");

@@ -1,8 +1,7 @@
 package vue;
 
-import Coaching.Coureur;
-import Coaching.Date;
-import Controleur.ActionValiderFicheObjectifs;
+import modele.coaching.Coureur;
+import controleur.ActionValiderFicheObjectifs;
 
 import javax.swing.*;
 import java.awt.*;

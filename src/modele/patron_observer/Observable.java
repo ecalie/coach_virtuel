@@ -1,4 +1,4 @@
-package patron_observer;
+package modele.patron_observer;
 
 import java.util.Iterator;
 import java.util.LinkedList;

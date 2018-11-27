@@ -1,9 +1,8 @@
 package vue;
 
-import Coaching.Coureur;
-import Coaching.Date;
-import Coaching.Seance;
-import Controleur.ActionTerminerSeance;
+import modele.coaching.Coureur;
+import modele.coaching.Seance;
+import controleur.ActionTerminerSeance;
 
 import javax.swing.*;
 import java.awt.*;

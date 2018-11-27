@@ -1,6 +1,6 @@
-package Controleur;
+package controleur;
 
-import Coaching.Seance;
+import modele.coaching.Seance;
 import vue.Fenetre;
 import vue.FicheSeance;
 
