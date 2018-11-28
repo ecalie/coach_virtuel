@@ -7,5 +7,5 @@ public class Evenement {
 
     private Date date;
     private String nomEvenement;
-    private int duree;
+    //private int duree;
 }
