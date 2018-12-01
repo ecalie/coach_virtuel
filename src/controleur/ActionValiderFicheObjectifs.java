@@ -23,7 +23,7 @@ public class ActionValiderFicheObjectifs implements ActionListener {
 
         this.ficheObjectifs.hide();
 
-        // notifier le coach
+        // notifier le coach et la fenetre
         this.ficheObjectifs.getCoureur().notifierObservateurs();
 
         // enregistrer les modifications

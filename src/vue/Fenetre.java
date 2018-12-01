@@ -1,6 +1,7 @@
 package vue;
 
 import controleur.*;
+import modele.Projet;
 import modele.coaching.Coureur;
 import modele.coaching.Date;
 import modele.coaching.Seance;
@@ -13,6 +14,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Fenetre extends JFrame implements IObserver {
@@ -22,20 +24,15 @@ public class Fenetre extends JFrame implements IObserver {
     private JDesktopPane desktop;
     private List<FicheSeance> fichesSeances;
 
-    private int seancesAffiches;
+    private Projet projet;
 
-    private PrevisionMeteo modulePrevision;
-    private Coureur coureur;
-    private List<Meteo> previsions;
-
-    public Fenetre() {
+    public Fenetre(Projet p) {
         super("Coach sportif virtuel");
 
-        this.coureur = Coureur.initialiser();
-        this.coureur.ajouterObservateur(this);
-        this.seancesAffiches = 0;
+        this.projet = p;
 
-        this.modulePrevision = new PrevisionMeteo();
+        // Ajouter la fenêtre dans la liste des observateurs du coureur
+        this.projet.getCoureur().ajouterObservateur(this);
 
         /* L'espace des fenêtres internes */
         this.desktop = new JDesktopPane() {
@@ -50,7 +47,7 @@ public class Fenetre extends JFrame implements IObserver {
         this.getContentPane().add(this.desktop, BorderLayout.CENTER);
 
         // La fiche coureur
-        this.ficheObjectifs = new FicheObjectifs(this.coureur);
+        this.ficheObjectifs = new FicheObjectifs(this.projet.getCoureur());
         this.desktop.add(this.ficheObjectifs);
 
         // La fiche météo
@@ -75,21 +72,24 @@ public class Fenetre extends JFrame implements IObserver {
 
         //      -menu météo
         JMenu menuMeteo = new JMenu("Météo");
-        JMenuItem menuItemPrevision = new JMenuItem("Prévoir la météo sur les 5 prochains jours");
         JMenuItem menuItemVoir = new JMenuItem("Voir la météo des 5 prochains jours");
-        menuItemPrevision.addActionListener(new ActionPrevision(this));
         menuItemVoir.addActionListener(new ActionVoirMeteo(this));
-        menuMeteo.add(menuItemPrevision);
         menuMeteo.add(menuItemVoir);
 
+        // La barre des menus
         JMenuBar barre = new JMenuBar();
         barre.add(menuEntr);
         barre.add(menuMeteo);
         this.setJMenuBar(barre);
 
+        // Taille de la fenêtre
         this.setMinimumSize(new Dimension(500, 200));
         this.setExtendedState(MAXIMIZED_BOTH);
+
+        // Afficher la fenêtre
         this.setVisible(true);
+
+        // Arrêter l'applicatin à la fermeture de la fenêtre
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
@@ -97,36 +97,16 @@ public class Fenetre extends JFrame implements IObserver {
         this.ficheObjectifs.setVisible(true);
     }
 
-    public void prevoirMeteo() {
-        this.previsions = this.modulePrevision.prevision5Jours(Date.today());
-    }
-
     public void afficherMeteo() {
-        if (this.previsions == null) {
-            JButton button = new JButton("Aucune prévisions ...");
-            button.setBackground(Color.RED);
-            PopupFactory factory = PopupFactory.getSharedInstance();
-            final Popup popup = factory.getPopup(this, button,
-                    (int) this.getLocation().getX() + this.getWidth() / 2,
-                    (int) this.getLocation().getY() + this.getHeight() / 2);
-            popup.show();
-            ActionListener hider = e -> popup.hide();
-
-            // Masquer le pop up après 3 seconces
-            Timer timer = new Timer(3000, hider);
-            timer.start();
-        } else {
-            this.ficheMeteo.maj(this.previsions);
-            this.ficheMeteo.setVisible(true);
-        }
+        this.ficheMeteo.maj(this.projet.getPrevisions());
+        this.ficheMeteo.setVisible(true);
     }
 
     public void afficherSeances(int nb) {
         if (nb == 1) {
+            // Afficher la séance suivante
             this.fichesSeances.get(0).show();
-            this.seancesAffiches = 1;
-        } else if (nb == -1) {
-            this.seancesAffiches = -1;
+        } else if (nb > 0) {
             // Afficher toutes les séances
             int x = 0;
             int y = 0;
@@ -146,8 +126,8 @@ public class Fenetre extends JFrame implements IObserver {
 
     public void initialiserFicheSeances() {
         this.fichesSeances = new ArrayList<>();
-        for (Seance s : this.coureur.getPlanEntrainement()){
-            FicheSeance fs = new FicheSeance(coureur, s);
+        for (Seance s : this.projet.getCoureur().getPlanEntrainement()){
+            FicheSeance fs = new FicheSeance(this.projet.getCoureur(), s);
             this.fichesSeances.add(fs);
             this.desktop.add(fs);
         }
@@ -155,10 +135,16 @@ public class Fenetre extends JFrame implements IObserver {
 
     @Override
     public void notifier(Observable observable) {
+        JInternalFrame[] fenetresAffichees = this.desktop.getAllFrames();
+        int nbSeancesAffichees = 0;
+        for (int i = 0 ; i < fenetresAffichees.length ; i++)
+            if (fenetresAffichees[i] instanceof FicheSeance && fenetresAffichees[i].isVisible())
+                nbSeancesAffichees++;
+
         for (FicheSeance fs : this.fichesSeances)
             this.desktop.remove(fs);
 
         this.initialiserFicheSeances();
-        this.afficherSeances(this.seancesAffiches);
+        this.afficherSeances(nbSeancesAffichees);
     }
 }

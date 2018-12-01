@@ -113,6 +113,7 @@ public class Coureur extends Observable implements Serializable {
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream("objectifs"));
             Coureur c = (Coureur) ois.readObject();
+            c.ajouterObservateur(Coach.getInstance());
             ois.close();
 
             System.out.println(c.getObjectifDistance());

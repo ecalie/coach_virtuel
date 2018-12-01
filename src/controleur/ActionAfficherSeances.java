@@ -18,6 +18,6 @@ public class ActionAfficherSeances implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        fenetre.afficherSeances(-1);
+        fenetre.afficherSeances(2);
     }
 }

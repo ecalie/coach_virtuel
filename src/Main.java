@@ -1,3 +1,4 @@
+import modele.Projet;
 import vue.Fenetre;
 
 import javax.swing.*;
@@ -10,6 +11,8 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        new Fenetre();
+
+        Projet p = new Projet();
+        new Fenetre(p);
     }
 }
