@@ -18,7 +18,7 @@ public class FicheSeance extends JInternalFrame {
 
 
     public FicheSeance(Coureur coureur, Seance seance) {
-        super("Séance", false, true, false, true);
+        super("" + seance.getDate(), false, true, false, true);
 
         this.distance = new JLabel(seance.getDistance() + "km");
         this.duree = new JLabel(seance.getDuree() + "minutes");
@@ -43,7 +43,7 @@ public class FicheSeance extends JInternalFrame {
         btn.addActionListener(new ActionTerminerSeance(this));
         this.getContentPane().add(btn, BorderLayout.SOUTH);
 
-        this.pack();
+        this.setSize(new Dimension(180,95));
     }
 
     public Coureur getCoureur() {

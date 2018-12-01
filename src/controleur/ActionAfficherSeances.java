@@ -18,19 +18,6 @@ public class ActionAfficherSeances implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        int x = 0;
-        int y = 0;
-        for (Seance seance : fenetre.getCoureur().getPlanEntrainement()) {
-            FicheSeance fs = new FicheSeance(fenetre.getCoureur(), seance);
-            fs.setLocation(new Point(x, y));
-            x += 185;
-            if (x + 175 > fenetre.getWidth()) {
-                x = 0;
-                y += 80;
-            }
-            fs.setTitle(seance.getDate().toString());
-            fenetre.getDesktop().add(fs);
-            fs.setVisible(true);
-        }
+        fenetre.afficherSeances(-1);
     }
 }

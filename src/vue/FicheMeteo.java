@@ -26,7 +26,7 @@ public class FicheMeteo extends JInternalFrame {
         this.getContentPane().setLayout(new BorderLayout());
 
         for (int i = 0 ; i < previsions.size() ; i++) {
-            jours.add(new JLabel("" + previsions.get(i)));
+            jours.add(new JLabel("     " + previsions.get(i)));
             form.add(new JLabel(Date.today().plus(i).toString()));
             form.add(jours.get(i));
         }

@@ -21,7 +21,7 @@ public class Observable {
         }
     }
 
-    protected void ajouterObservateur(IObserver observateur) {
+    public void ajouterObservateur(IObserver observateur) {
         observateurs.add(observateur);
     }
 
