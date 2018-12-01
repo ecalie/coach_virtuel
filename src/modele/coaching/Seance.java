@@ -1,6 +1,8 @@
 package modele.coaching;
 
-public class Seance {
+import java.io.Serializable;
+
+public class Seance implements Serializable {
 
     private int distance;
     private int duree;

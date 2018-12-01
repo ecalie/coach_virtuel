@@ -2,10 +2,11 @@ package modele.coaching;
 
 import modele.patron_observer.Observable;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Coureur extends Observable {
+public class Coureur extends Observable implements Serializable {
 
     ///////////////
     // ATTRIBUTS //
@@ -29,7 +30,7 @@ public class Coureur extends Observable {
     /**
      * Liste des objectifs remplis.
      */
-    private List<Seance> performances;
+   // private List<Seance> performances;
 
     /**
      * Liste des séances pour remplir le prochain objectif.
@@ -41,9 +42,9 @@ public class Coureur extends Observable {
     //////////////////
 
     public Coureur() {
-        this.performances = new ArrayList<>();
+       // this.performances = new ArrayList<>();
         this.planEntrainement = new ArrayList<>();
-        ajouterObservateur(Coach.getInstance());
+        this.ajouterObservateur(Coach.getInstance());
     }
 
     ////////////////
@@ -94,5 +95,32 @@ public class Coureur extends Observable {
         this.planEntrainement.remove(seance);
     }
 
+    //////////////////
+    // SERIALIZABLE //
+    //////////////////
+
+    public void enregistrer() {
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("objectifs"));
+            oos.writeObject(this);
+            oos.flush();
+            oos.close();
+        } catch(Exception e) {
+        }
+    }
+
+    public static Coureur initialiser() {
+        try {
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("objectifs"));
+            Coureur c = (Coureur) ois.readObject();
+            ois.close();
+
+            System.out.println(c.getObjectifDistance());
+            return c;
+        } catch(Exception e) {
+        }
+
+        return new Coureur();
+    }
 }
 

@@ -21,9 +21,12 @@ public class ActionValiderFicheObjectifs implements ActionListener {
         this.ficheObjectifs.getCoureur().setObjectifDuree(Integer.parseInt(this.ficheObjectifs.getObjectifDuree().getText()));
         this.ficheObjectifs.getCoureur().setObjectifDistance(Integer.parseInt(this.ficheObjectifs.getObjectifDistance().getText()));
 
-        this.ficheObjectifs.setVisible(false);
+        this.ficheObjectifs.hide();
 
         // notifier le coach
         this.ficheObjectifs.getCoureur().notifierObservateurs();
+
+        // enregistrer les modifications
+        this.ficheObjectifs.getCoureur().enregistrer();
     }
 }

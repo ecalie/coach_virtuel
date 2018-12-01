@@ -34,6 +34,15 @@ public class FicheObjectifs extends JInternalFrame {
         centre.add(new JLabel("Date"));
         centre.add(this.dateLimite);
 
+        // pré-remplir les champs
+        if (coureur.getObjectifDuree() != 0)
+            this.objectifDuree.setText("" + coureur.getObjectifDuree());
+        if (coureur.getObjectifDistance() != 0)
+            this.objectifDistance.setText("" + coureur.getObjectifDistance());
+        if (coureur.getDateLimite() != null)
+            this.dateLimite.setText(coureur.getDateLimite().toString());
+
+
         this.getContentPane().add(centre, BorderLayout.CENTER);
 
         this.getContentPane().add(new JLabel("Mes Objectifs"), BorderLayout.NORTH);

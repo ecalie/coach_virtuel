@@ -3,20 +3,26 @@ package vue;
 import controleur.*;
 import modele.coaching.Coureur;
 import modele.coaching.Date;
+import modele.coaching.Seance;
 import modele.meteo.Meteo;
 import modele.meteo.PrevisionMeteo;
+import modele.patron_observer.IObserver;
+import modele.patron_observer.Observable;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Fenetre extends JFrame {
+public class Fenetre extends JFrame implements IObserver {
 
     private FicheObjectifs ficheObjectifs;
     private FicheMeteo ficheMeteo;
     private JDesktopPane desktop;
+    private List<FicheSeance> fichesSeances;
+
+    private int seancesAffiches;
 
     private PrevisionMeteo modulePrevision;
     private Coureur coureur;
@@ -25,7 +31,10 @@ public class Fenetre extends JFrame {
     public Fenetre() {
         super("Coach sportif virtuel");
 
-        this.coureur = new Coureur();
+        this.coureur = Coureur.initialiser();
+        this.coureur.ajouterObservateur(this);
+        this.seancesAffiches = 0;
+
         this.modulePrevision = new PrevisionMeteo();
 
         /* L'espace des fenêtres internes */
@@ -47,6 +56,9 @@ public class Fenetre extends JFrame {
         // La fiche météo
         this.ficheMeteo = new FicheMeteo();
         this.desktop.add(ficheMeteo);
+
+        // les fiches séances
+        this.initialiserFicheSeances();
 
         // Les menus
         //      - menu entraiement
@@ -75,22 +87,10 @@ public class Fenetre extends JFrame {
         barre.add(menuMeteo);
         this.setJMenuBar(barre);
 
-        this.setMinimumSize(new Dimension(500,200));
+        this.setMinimumSize(new Dimension(500, 200));
         this.setExtendedState(MAXIMIZED_BOTH);
         this.setVisible(true);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-    }
-
-    public JDesktopPane getDesktop() {
-        return desktop;
-    }
-
-    public Coureur getCoureur() {
-        return coureur;
-    }
-
-    public PrevisionMeteo getModulePrevision() {
-        return modulePrevision;
     }
 
     public void afficherFicheObjectifs() {
@@ -107,8 +107,8 @@ public class Fenetre extends JFrame {
             button.setBackground(Color.RED);
             PopupFactory factory = PopupFactory.getSharedInstance();
             final Popup popup = factory.getPopup(this, button,
-                    (int) this.getLocation().getX() + this.getWidth()/2,
-                    (int) this.getLocation().getY() + this.getHeight()/2);
+                    (int) this.getLocation().getX() + this.getWidth() / 2,
+                    (int) this.getLocation().getY() + this.getHeight() / 2);
             popup.show();
             ActionListener hider = e -> popup.hide();
 
@@ -119,5 +119,46 @@ public class Fenetre extends JFrame {
             this.ficheMeteo.maj(this.previsions);
             this.ficheMeteo.setVisible(true);
         }
+    }
+
+    public void afficherSeances(int nb) {
+        if (nb == 1) {
+            this.fichesSeances.get(0).show();
+            this.seancesAffiches = 1;
+        } else if (nb == -1) {
+            this.seancesAffiches = -1;
+            // Afficher toutes les séances
+            int x = 0;
+            int y = 0;
+
+            for (FicheSeance fs : this.fichesSeances) {
+                fs.setLocation(new Point(x, y));
+
+                x += 185;
+                if (x + 175 > this.getWidth()) {
+                    x = 0;
+                    y += 100;
+                }
+                fs.show();
+            }
+        }
+    }
+
+    public void initialiserFicheSeances() {
+        this.fichesSeances = new ArrayList<>();
+        for (Seance s : this.coureur.getPlanEntrainement()){
+            FicheSeance fs = new FicheSeance(coureur, s);
+            this.fichesSeances.add(fs);
+            this.desktop.add(fs);
+        }
+    }
+
+    @Override
+    public void notifier(Observable observable) {
+        for (FicheSeance fs : this.fichesSeances)
+            this.desktop.remove(fs);
+
+        this.initialiserFicheSeances();
+        this.afficherSeances(this.seancesAffiches);
     }
 }

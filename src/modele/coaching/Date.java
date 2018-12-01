@@ -1,6 +1,8 @@
 package modele.coaching;
 
-public class Date {
+import java.io.Serializable;
+
+public class Date implements Serializable  {
 
     private int jour;
     private int mois;
