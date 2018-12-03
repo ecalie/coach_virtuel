@@ -92,7 +92,6 @@ public class SeanceFabrique implements Serializable {
 
             this.seancesPartagees = seances;
         } catch (Exception e) {
-            System.out.println("pas de fichier seances");
         }
     }
 }

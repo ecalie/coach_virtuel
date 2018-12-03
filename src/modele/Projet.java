@@ -7,6 +7,10 @@ import modele.coaching.SeanceFabrique;
 import modele.meteo.Meteo;
 import modele.meteo.PrevisionMeteo;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.List;
 
 public class Projet {
@@ -18,32 +22,25 @@ public class Projet {
 
     public Projet() {
         // initialisation
-        this.coureur = Coureur.initialiser();
+        this.coureur = new Coureur();
         this.coach = Coach.getInstance();
         this.moduleMeteo = new PrevisionMeteo();
+
+        this.coureur.ajouterObservateur(this.coach);
 
         SeanceFabrique.getInstance().initialiser();
 
         // initialiser les premières météos
-        this.previsions = this.moduleMeteo.prevision5Jours(Date.today());
+        this.previsions = this.initialiserMeteo();
     }
 
     public Coureur getCoureur() {
         return coureur;
     }
 
-    public Coach getCoach() {
-        return coach;
-    }
-
-    public PrevisionMeteo getModuleMeteo() {
-        return moduleMeteo;
-    }
-
     public List<Meteo> getPrevisions() {
         return previsions;
     }
-
 
     public Meteo getMeteo() {
         return previsions.get(0);
@@ -52,5 +49,34 @@ public class Projet {
     public void enregistrerTout() {
         this.coureur.enregistrer();
         SeanceFabrique.getInstance().enregistrer();
+        this.enregistrerMeteo();
     }
+
+    //////////////////
+    // SERIALIZABLE //
+    //////////////////
+
+    public void enregistrerMeteo() {
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("meteo"));
+            oos.writeObject(this.previsions);
+            oos.flush();
+            oos.close();
+        } catch (Exception e) {
+        }
+    }
+
+    public List<Meteo> initialiserMeteo() {
+        try {
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("meteo"));
+            List<Meteo> meteos = (List<Meteo>) ois.readObject();
+            ois.close();
+
+            return meteos;
+        } catch (Exception e) {
+        }
+
+        return this.moduleMeteo.prevision5Jours(Date.today());
+    }
+
 }

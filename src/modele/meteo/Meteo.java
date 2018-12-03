@@ -1,6 +1,8 @@
 package modele.meteo;
 
-public enum Meteo {
+import java.io.Serializable;
+
+public enum Meteo implements Serializable {
 
     soleil,
     pluie,

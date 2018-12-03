@@ -28,11 +28,6 @@ public class Coureur extends Observable implements Serializable {
     private Date dateLimite;
 
     /**
-     * Liste des objectifs remplis.
-     */
-    // private List<Seance> performances;
-
-    /**
      * Liste des clés des séances de la fabrique pour remplir le prochain objectif.
      */
     private List<Integer> planEntrainement;
@@ -47,10 +42,10 @@ public class Coureur extends Observable implements Serializable {
     //////////////////
 
     public Coureur() {
-        // this.performances = new ArrayList<>();
         this.planEntrainement = new ArrayList<>();
-        this.ajouterObservateur(Coach.getInstance());
         this.prochaineSeance = 0;
+
+        this.initialiser();
     }
 
     ////////////////
@@ -88,7 +83,8 @@ public class Coureur extends Observable implements Serializable {
     public int getProchaineSeance() {
         return prochaineSeance;
     }
-///////////////////////////////
+
+    ///////////////////////////////
     // GESTION PLAN ENTRAINEMENT //
     ///////////////////////////////
 
@@ -114,18 +110,19 @@ public class Coureur extends Observable implements Serializable {
         }
     }
 
-    public static Coureur initialiser() {
+    public void initialiser() {
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream("objectifs"));
             Coureur c = (Coureur) ois.readObject();
-            c.ajouterObservateur(Coach.getInstance());
+            this.objectifDistance = c.objectifDistance;
+            this.objectifDuree = c.objectifDuree;
+            this.dateLimite = c.dateLimite;
+            this.planEntrainement = c.planEntrainement;
+            this.prochaineSeance = c.prochaineSeance;
             ois.close();
 
-            return c;
         } catch (Exception e) {
         }
-
-        return new Coureur();
     }
 }
 
