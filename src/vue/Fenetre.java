@@ -1,12 +1,8 @@
 package vue;
 
-import controleur.ActionAfficherSeance;
-import controleur.ActionAfficherSeances;
-import controleur.ActionDefinirObjectifs;
-import controleur.ActionVoirMeteo;
+import controleur.*;
 import modele.Projet;
 import modele.coaching.Date;
-import modele.coaching.Seance;
 import modele.coaching.SeanceFabrique;
 import modele.patron_observer.IObserver;
 import modele.patron_observer.Observable;
@@ -62,12 +58,15 @@ public class Fenetre extends JFrame implements IObserver {
         JMenuItem menuItemDef = new JMenuItem("Définir mes objectifs");
         JMenuItem menuItemSeance = new JMenuItem("Voir la prochaine séance");
         JMenuItem menuItemSeances = new JMenuItem("Voir toutes les prochaines séances");
+        JMenuItem menuItemSeancesTerminees = new JMenuItem("Voir les séances terminées");
         menuItemDef.addActionListener(new ActionDefinirObjectifs(this));
         menuItemSeance.addActionListener(new ActionAfficherSeance(this));
         menuItemSeances.addActionListener(new ActionAfficherSeances(this));
+        menuItemSeancesTerminees.addActionListener(new ActionAfficherTerminees(this));
         menuEntr.add(menuItemDef);
         menuEntr.add(menuItemSeance);
         menuEntr.add(menuItemSeances);
+        menuEntr.add(menuItemSeancesTerminees);
 
         //      -menu météo
         JMenu menuMeteo = new JMenu("Météo");
@@ -107,6 +106,8 @@ public class Fenetre extends JFrame implements IObserver {
     }
 
     public void afficherSeances(int nb) {
+        for (FicheSeance fs : this.fichesSeances)
+            fs.hide();
         if (nb == 1) {
             // Afficher la séance suivante
             this.fichesSeances.get(this.projet.getCoureur().getProchaineSeance()).show();
@@ -138,6 +139,25 @@ public class Fenetre extends JFrame implements IObserver {
         }
     }
 
+    public void afficherTerminees() {
+        int x = 0;
+        int y = 0;
+        for (FicheSeance fs : this.fichesSeances)
+            fs.hide();
+
+        for (int i = 0; i < this.projet.getCoureur().getProchaineSeance(); i++) {
+            FicheSeance fs = this.fichesSeances.get(i);
+            fs.setLocation(new Point(x, y));
+
+            x += 185;
+            if (x + 175 > this.getWidth()) {
+                x = 0;
+                y += 100;
+            }
+            fs.show();
+        }
+    }
+
     @Override
     public void notifier(Observable observable) {
         JInternalFrame[] fenetresAffichees = this.desktop.getAllFrames();
@@ -155,7 +175,6 @@ public class Fenetre extends JFrame implements IObserver {
 
     @Override
     public void dispose() {
-        System.out.println(("enregistrer avant de fermer"));
         this.projet.enregistrerTout();
         super.dispose();
     }
