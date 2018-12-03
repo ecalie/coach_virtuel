@@ -15,7 +15,7 @@ public class Observable {
     public void notifierObservateurs() {
         Iterator<IObserver> it = observateurs.iterator();
         // Notifier tous les observers
-        while(it.hasNext()){
+        while (it.hasNext()) {
             IObserver obs = it.next();
             obs.notifier(this);
         }

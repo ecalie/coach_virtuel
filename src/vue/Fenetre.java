@@ -1,20 +1,19 @@
 package vue;
 
-import controleur.*;
+import controleur.ActionAfficherSeance;
+import controleur.ActionAfficherSeances;
+import controleur.ActionDefinirObjectifs;
+import controleur.ActionVoirMeteo;
 import modele.Projet;
-import modele.coaching.Coureur;
 import modele.coaching.Date;
 import modele.coaching.Seance;
-import modele.meteo.Meteo;
-import modele.meteo.PrevisionMeteo;
+import modele.coaching.SeanceFabrique;
 import modele.patron_observer.IObserver;
 import modele.patron_observer.Observable;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class Fenetre extends JFrame implements IObserver {
@@ -34,7 +33,7 @@ public class Fenetre extends JFrame implements IObserver {
         // Ajouter la fenêtre dans la liste des observateurs du coureur
         this.projet.getCoureur().ajouterObservateur(this);
 
-        /* L'espace des fenêtres internes */
+        // L'espace des fenêtres internes
         this.desktop = new JDesktopPane() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -44,7 +43,7 @@ public class Fenetre extends JFrame implements IObserver {
             }
         };
 
-        this.getContentPane().add(this.desktop, BorderLayout.CENTER);
+        this.getContentPane().add(this.desktop);
 
         // La fiche coureur
         this.ficheObjectifs = new FicheObjectifs(this.projet.getCoureur());
@@ -82,6 +81,11 @@ public class Fenetre extends JFrame implements IObserver {
         barre.add(menuMeteo);
         this.setJMenuBar(barre);
 
+        // Afficher la séance d'aujourd'hui s'il y en a une
+        if (SeanceFabrique.getInstance().getSeance(Date.today()) != null)
+            this.fichesSeances.get(0).majEtAfficher(this.projet.getMeteo());
+
+
         // Taille de la fenêtre
         this.setMinimumSize(new Dimension(500, 200));
         this.setExtendedState(MAXIMIZED_BOTH);
@@ -90,7 +94,7 @@ public class Fenetre extends JFrame implements IObserver {
         this.setVisible(true);
 
         // Arrêter l'applicatin à la fermeture de la fenêtre
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     public void afficherFicheObjectifs() {
@@ -105,13 +109,14 @@ public class Fenetre extends JFrame implements IObserver {
     public void afficherSeances(int nb) {
         if (nb == 1) {
             // Afficher la séance suivante
-            this.fichesSeances.get(0).show();
+            this.fichesSeances.get(this.projet.getCoureur().getProchaineSeance()).show();
         } else if (nb > 0) {
             // Afficher toutes les séances
             int x = 0;
             int y = 0;
 
-            for (FicheSeance fs : this.fichesSeances) {
+            for (int i = this.projet.getCoureur().getProchaineSeance(); i < this.fichesSeances.size(); i++) {
+                FicheSeance fs = this.fichesSeances.get(i);
                 fs.setLocation(new Point(x, y));
 
                 x += 185;
@@ -126,8 +131,8 @@ public class Fenetre extends JFrame implements IObserver {
 
     public void initialiserFicheSeances() {
         this.fichesSeances = new ArrayList<>();
-        for (Seance s : this.projet.getCoureur().getPlanEntrainement()){
-            FicheSeance fs = new FicheSeance(this.projet.getCoureur(), s);
+        for (int i : this.projet.getCoureur().getPlanEntrainement()) {
+            FicheSeance fs = new FicheSeance(this.projet.getCoureur(), SeanceFabrique.getInstance().getSeance(i));
             this.fichesSeances.add(fs);
             this.desktop.add(fs);
         }
@@ -137,7 +142,7 @@ public class Fenetre extends JFrame implements IObserver {
     public void notifier(Observable observable) {
         JInternalFrame[] fenetresAffichees = this.desktop.getAllFrames();
         int nbSeancesAffichees = 0;
-        for (int i = 0 ; i < fenetresAffichees.length ; i++)
+        for (int i = 0; i < fenetresAffichees.length; i++)
             if (fenetresAffichees[i] instanceof FicheSeance && fenetresAffichees[i].isVisible())
                 nbSeancesAffichees++;
 
@@ -146,5 +151,12 @@ public class Fenetre extends JFrame implements IObserver {
 
         this.initialiserFicheSeances();
         this.afficherSeances(nbSeancesAffichees);
+    }
+
+    @Override
+    public void dispose() {
+        System.out.println(("enregistrer avant de fermer"));
+        this.projet.enregistrerTout();
+        super.dispose();
     }
 }

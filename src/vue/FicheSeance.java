@@ -1,8 +1,11 @@
 package vue;
 
-import modele.coaching.Coureur;
-import modele.coaching.Seance;
 import controleur.ActionTerminerSeance;
+import modele.coaching.Coureur;
+import modele.coaching.Date;
+import modele.coaching.Seance;
+import modele.coaching.SeanceFabrique;
+import modele.meteo.Meteo;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,7 +30,7 @@ public class FicheSeance extends JInternalFrame {
         this.coureur = coureur;
         this.seance = seance;
 
-        JPanel form = new JPanel(new GridLayout(3,2));
+        JPanel form = new JPanel(new GridLayout(3, 2));
         this.getContentPane().setLayout(new BorderLayout());
 
         form.add(new JLabel("Distance"));
@@ -39,11 +42,8 @@ public class FicheSeance extends JInternalFrame {
 
         this.getContentPane().add(form, BorderLayout.CENTER);
 
-        JButton btn = new JButton("Séance terminée");
-        btn.addActionListener(new ActionTerminerSeance(this));
-        this.getContentPane().add(btn, BorderLayout.SOUTH);
-
-        this.setSize(new Dimension(180,95));
+        this.setSize(new Dimension(180, 95));
+        this.setDefaultCloseOperation(HIDE_ON_CLOSE);
     }
 
     public Coureur getCoureur() {
@@ -52,5 +52,27 @@ public class FicheSeance extends JInternalFrame {
 
     public Seance getSeance() {
         return seance;
+    }
+
+    public void majEtAfficher(Meteo meteo) {
+        this.setTitle("La séance d'aujourd'hui");
+        String texte = "La météo du jour est " + meteo;
+        if (meteo == Meteo.pluie)
+            texte += "\n La séance est raccourcie : 80% de la distance prévue";
+        if (meteo == Meteo.neige)
+            texte += "\n La séance est raccourcie : 60% de la distance prévue";
+
+        JLabel labelMeteo = new JLabel(texte);
+        this.getContentPane().add(labelMeteo, BorderLayout.NORTH);
+
+        Seance s = SeanceFabrique.getInstance().getSeance(Date.today(), meteo);
+        this.distance.setText("" + s.getDistance());
+
+        JButton btn = new JButton("Séance terminée");
+        btn.addActionListener(new ActionTerminerSeance(this));
+        this.getContentPane().add(btn, BorderLayout.SOUTH);
+
+        this.setSize(new Dimension(200,150));
+        this.setVisible(true);
     }
 }

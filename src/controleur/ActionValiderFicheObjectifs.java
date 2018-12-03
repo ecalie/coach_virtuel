@@ -25,8 +25,5 @@ public class ActionValiderFicheObjectifs implements ActionListener {
 
         // notifier le coach et la fenetre
         this.ficheObjectifs.getCoureur().notifierObservateurs();
-
-        // enregistrer les modifications
-        this.ficheObjectifs.getCoureur().enregistrer();
     }
 }

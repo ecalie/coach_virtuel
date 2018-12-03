@@ -1,42 +1,98 @@
 package modele.coaching;
+
 import modele.meteo.Meteo;
 
+import java.io.*;
 import java.util.Hashtable;
 
-public class SeanceFabrique {
+public class SeanceFabrique implements Serializable {
 
+    public static SeanceFabrique singleton = new SeanceFabrique();
+
+    /////////////////////////////////////
+    // APPLICATION DU PATTER SINGLETON //
+    /////////////////////////////////////
     private Hashtable<Integer, Seance> seancesPartagees = new Hashtable<>();
 
-    SeanceFabrique() {}
+    private SeanceFabrique() {
+    }
 
-    public Seance getSeance(int indiceSeance) {
-        if(seancesPartagees.containsKey(indiceSeance)) {
-            return seancesPartagees.get(indiceSeance);
-        }
-        else {
+    public static SeanceFabrique getInstance() {
+        return singleton;
+    }
+
+    ////////////////////////////////////////
+    // RECUPERER UNE SEANCE DE A FABRIQUE //
+    ////////////////////////////////////////
+
+    public Seance getSeance(int key) {
+        if (this.seancesPartagees.containsKey(key)) {
+            return seancesPartagees.get(key);
+        } else {
             System.out.println("La séance n'existe pas");
             return null;
         }
     }
 
-    public Seance getSeance(int indiceSeance, Meteo meteo){
-        if(seancesPartagees.containsKey(indiceSeance)) {
-            Seance seance = seancesPartagees.get(indiceSeance);
+    public Seance getSeance(int key, Meteo meteo) {
+        if (this.seancesPartagees.containsKey(key)) {
+            Seance seance = seancesPartagees.get(key);
             //exemple de mise à jour contextuelle
             if (meteo == Meteo.pluie)
-                seance.setDuree((int) (seance.getDuree()*1.25));
+                seance.setDistance((int) (seance.getDistance() * 0.8));
             else if (meteo == Meteo.neige)
-                seance.setDuree((int) (seance.getDuree()*1.5));
+                seance.setDistance((int) (seance.getDistance() * 0.6));
             return seance;
-        }
-        else {
+        } else {
             System.out.println("La séance n'existe pas");
             return null;
         }
     }
 
-    public void addSeance(int distance, int duree, Date date) {
+    public Seance getSeance(Date date) {
+        for (int cle : this.seancesPartagees.keySet())
+            if (seancesPartagees.get(cle).getDate().equals(date))
+                return seancesPartagees.get(cle);
+        return null;
+    }
+
+    public Seance getSeance(Date date, Meteo meteo) {
+        for (int cle : this.seancesPartagees.keySet())
+            if (seancesPartagees.get(cle).getDate().equals(date))
+                return this.getSeance(cle, meteo);
+        return null;
+    }
+
+    public void addSeance(int key, int distance, int duree, Date date) {
         final Seance nouvelleSeance = new Seance(distance, duree, date);
-        seancesPartagees.put(seancesPartagees.size()+1, nouvelleSeance);
+        seancesPartagees.put(key, nouvelleSeance);
+    }
+
+
+    //////////////////
+    // SERIALIZABLE //
+    //////////////////
+
+    public void enregistrer() {
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("seances"));
+            oos.writeObject(this.seancesPartagees);
+            oos.flush();
+            oos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void initialiser() {
+        try {
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("seances"));
+            Hashtable<Integer, Seance> seances = (Hashtable<Integer, Seance>) ois.readObject();
+            ois.close();
+
+            this.seancesPartagees = seances;
+        } catch (Exception e) {
+            System.out.println("pas de fichier seances");
+        }
     }
 }

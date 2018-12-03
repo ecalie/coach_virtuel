@@ -1,8 +1,6 @@
 package controleur;
 
-import modele.coaching.Seance;
 import vue.Fenetre;
-import vue.FicheSeance;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

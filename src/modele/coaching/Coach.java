@@ -25,20 +25,21 @@ public class Coach implements IObserver {
     // CREATION D'UN PLAN D'ENTRAINEMENT //
     ///////////////////////////////////////
 
-    public List<Seance> planEntrainement(Coureur coureur) {
+    public List<Integer> planEntrainement(Coureur coureur) {
         // calculer le nombre de séances (une tous 3 jours)
         // on commence demain
-        Date debut = Date.today();
+        Date debut = Date.today().plus(1);
         Date fin = coureur.getDateLimite();
         int nbJours = fin.moins(debut) + 1;
         int nbSeances = (nbJours) / 3 + (nbJours % 3 == 0 ? 0 : 1);
-
+        int clef = 0;
+        
         // erreur si moins de 12 séances
         if (nbSeances < 13)
             return null;
 
         // construire le plan d'entrainement
-        List<Seance> res = new ArrayList<>();
+        List<Integer> res = new ArrayList<>();
         int objAllure = coureur.getObjectifDistance() * 60 / coureur.getObjectifDuree();
         Date date = debut;
         //      -les 3 premières séances
@@ -46,21 +47,24 @@ public class Coach implements IObserver {
         int dureeSeance = coureur.getObjectifDuree() / 2;
         int allureSeance = objAllure - 1;
         int distSeance = allureSeance * dureeSeance / 60;
-        res.add(new Seance(distSeance, dureeSeance, date));
+        SeanceFabrique.getInstance().addSeance(clef, distSeance, dureeSeance, date);
+        res.add(clef++);
 
         date = date.plus(3);
         //              - seance 2
         dureeSeance = coureur.getObjectifDuree();
         allureSeance = objAllure - 3;
         distSeance = allureSeance * dureeSeance / 60;
-        res.add(new Seance(distSeance, dureeSeance, date));
+        SeanceFabrique.getInstance().addSeance(clef, distSeance, dureeSeance, date);
+        res.add(clef++);
 
         date = date.plus(3);
         //              - seance 3
         dureeSeance = (int) (coureur.getObjectifDuree() * 1.5);
         allureSeance = objAllure - 3;
         distSeance = allureSeance * dureeSeance / 60;
-        res.add(new Seance(distSeance, dureeSeance, date));
+        SeanceFabrique.getInstance().addSeance(clef, distSeance, dureeSeance, date);
+        res.add(clef++);
 
         date = date.plus(3);
 
@@ -70,7 +74,8 @@ public class Coach implements IObserver {
                 dureeSeance = coureur.getObjectifDuree();
                 allureSeance = objAllure - 1;
                 distSeance = allureSeance * dureeSeance / 60;
-                res.add(new Seance(distSeance, dureeSeance, date));
+                SeanceFabrique.getInstance().addSeance(clef, distSeance, dureeSeance, date);
+                res.add(clef++);
 
                 date = date.plus(3);
             } else if (seance % 3 == 2) {
@@ -89,14 +94,16 @@ public class Coach implements IObserver {
                     allureSeance = objAllure - 1;
 
                 distSeance = allureSeance * dureeSeance / 60;
-                res.add(new Seance(distSeance, dureeSeance, date));
+                SeanceFabrique.getInstance().addSeance(clef, distSeance, dureeSeance, date);
+                res.add(clef++);
 
                 date = date.plus(3);
             } else if (seance % 3 == 0) {
                 dureeSeance = coureur.getObjectifDuree() * 2;
                 allureSeance = objAllure - 3;
                 distSeance = allureSeance * dureeSeance / 60;
-                res.add(new Seance(distSeance, dureeSeance, date));
+                SeanceFabrique.getInstance().addSeance(clef, distSeance, dureeSeance, date);
+                res.add(clef++);
 
                 date = date.plus(3);
             }
@@ -106,29 +113,33 @@ public class Coach implements IObserver {
         dureeSeance = (int) (coureur.getObjectifDuree() * 0.7);
         allureSeance = objAllure - 1;
         distSeance = allureSeance * dureeSeance / 60;
-        res.add(new Seance(distSeance, dureeSeance, date));
+        SeanceFabrique.getInstance().addSeance(clef, distSeance, dureeSeance, date);
+        res.add(clef++);
 
         date = date.plus(3);
 
         dureeSeance = (int) (coureur.getObjectifDuree() * 0.8);
         allureSeance = objAllure - 2;
         distSeance = allureSeance * dureeSeance / 60;
-        res.add(new Seance(distSeance, dureeSeance, date));
+        SeanceFabrique.getInstance().addSeance(clef, distSeance, dureeSeance, date);
+        res.add(clef++);
 
         date = date.plus(3);
 
         dureeSeance = (int) (coureur.getObjectifDuree() * 0.9);
         allureSeance = objAllure - 3;
         distSeance = allureSeance * dureeSeance / 60;
-        res.add(new Seance(distSeance, dureeSeance, date));
+        SeanceFabrique.getInstance().addSeance(clef, distSeance, dureeSeance, date);
+        res.add(clef++);
 
         date = date.plus(3);
 
         //      - le jour de la course
-        dureeSeance = (int) (coureur.getObjectifDuree() * 1);
+        dureeSeance = coureur.getObjectifDuree();
         allureSeance = objAllure;
         distSeance = allureSeance * dureeSeance / 60;
-        res.add(new Seance(distSeance, dureeSeance, date));
+        SeanceFabrique.getInstance().addSeance(clef, distSeance, dureeSeance, date);
+        res.add(clef++);
 
         return res;
     }

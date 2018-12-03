@@ -30,69 +30,74 @@ public class Coureur extends Observable implements Serializable {
     /**
      * Liste des objectifs remplis.
      */
-   // private List<Seance> performances;
+    // private List<Seance> performances;
 
     /**
-     * Liste des séances pour remplir le prochain objectif.
+     * Liste des clés des séances de la fabrique pour remplir le prochain objectif.
      */
-    private List<Seance> planEntrainement;
+    private List<Integer> planEntrainement;
+
+    /**
+     * Indice de la prochaine seance.
+     */
+    private int prochaineSeance;
 
     //////////////////
     // CONSTRUCTEUR //
     //////////////////
 
     public Coureur() {
-       // this.performances = new ArrayList<>();
+        // this.performances = new ArrayList<>();
         this.planEntrainement = new ArrayList<>();
         this.ajouterObservateur(Coach.getInstance());
+        this.prochaineSeance = 0;
     }
 
     ////////////////
     // ACCESSEURS //
     ////////////////
 
-    public void setObjectifDistance(int objectifDistance) {
-        this.objectifDistance = objectifDistance;
-    }
-
-    public void setObjectifDuree(int objectifDuree) {
-        this.objectifDuree = objectifDuree;
-    }
-
-    public void setDateLimite(Date dateLimite) {
-        this.dateLimite = dateLimite;
-    }
-
     public int getObjectifDistance() {
         return objectifDistance;
+    }
+
+    public void setObjectifDistance(int objectifDistance) {
+        this.objectifDistance = objectifDistance;
     }
 
     public int getObjectifDuree() {
         return objectifDuree;
     }
 
+    public void setObjectifDuree(int objectifDuree) {
+        this.objectifDuree = objectifDuree;
+    }
+
     public Date getDateLimite() {
         return dateLimite;
     }
 
-    public List<Seance> getPlanEntrainement() {
+    public void setDateLimite(Date dateLimite) {
+        this.dateLimite = dateLimite;
+    }
+
+    public List<Integer> getPlanEntrainement() {
         return planEntrainement;
     }
 
-    public void setPlanEntrainement(List<Seance> planEntrainement) {
-        this.planEntrainement = planEntrainement;
+    public int getProchaineSeance() {
+        return prochaineSeance;
     }
-
-    ///////////////////////////////
+///////////////////////////////
     // GESTION PLAN ENTRAINEMENT //
     ///////////////////////////////
 
-    public void creerPlanEntrainement() {
-        this.planEntrainement = Coach.getInstance().planEntrainement(this) ;
+    public void setPlanEntrainement(List<Integer> planEntrainement) {
+        this.planEntrainement = planEntrainement;
     }
 
     public void terminerSeance(Seance seance) {
-        this.planEntrainement.remove(seance);
+        this.prochaineSeance++;
     }
 
     //////////////////
@@ -105,7 +110,7 @@ public class Coureur extends Observable implements Serializable {
             oos.writeObject(this);
             oos.flush();
             oos.close();
-        } catch(Exception e) {
+        } catch (Exception e) {
         }
     }
 
@@ -116,9 +121,8 @@ public class Coureur extends Observable implements Serializable {
             c.ajouterObservateur(Coach.getInstance());
             ois.close();
 
-            System.out.println(c.getObjectifDistance());
             return c;
-        } catch(Exception e) {
+        } catch (Exception e) {
         }
 
         return new Coureur();

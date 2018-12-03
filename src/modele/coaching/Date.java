@@ -2,13 +2,13 @@ package modele.coaching;
 
 import java.io.Serializable;
 
-public class Date implements Serializable  {
+public class Date implements Serializable {
 
     private int jour;
     private int mois;
     private int annee;
-    private int heure;
-    private int minute;
+    //private int heure;
+    //private int minute;
     //private Meteo prevision;
 
 
@@ -16,16 +16,12 @@ public class Date implements Serializable  {
         this.jour = jour;
         this.mois = mois;
         this.annee = annee;
-        this.heure = heure;
-        this.minute = minute;
+        //  this.heure = heure;
+        // this.minute = minute;
     }
 
     public Date(int jour, int mois, int annee) {
         this(jour, mois, annee, 0, 0);
-    }
-
-    public int getMois() {
-        return mois;
     }
 
     /**
@@ -54,6 +50,24 @@ public class Date implements Serializable  {
             return new Date((int) jour, mois, annee);
         else
             return new Date((int) jour + 1, mois, annee);
+    }
+
+    /**
+     * Créer une date à partir d'une chaîne de caractères de la forme jj/mm/aaaa.
+     */
+    public static Date toDate(String date) {
+        String[] donnees = date.split("/");
+        return new Date(Integer.parseInt(donnees[0]), Integer.parseInt(donnees[1]), Integer.parseInt(donnees[2]));
+    }
+
+    public static Date today() {
+        java.util.Date tmp = new java.util.Date();
+        return new Date(tmp.getDate() + 1, tmp.getMonth() + 1, tmp.getYear() + 1900);
+        //return new Date(03,12,2018);
+    }
+
+    public int getMois() {
+        return mois;
     }
 
     /**
@@ -91,17 +105,10 @@ public class Date implements Serializable  {
         return this.jour + "/" + this.mois + "/" + this.annee;
     }
 
-    /**
-     * Créer une date à partir d'une chaîne de caractères de la forme jj/mm/aaaa.
-     */
-    public static Date toDate(String date) {
-        String[] donnees = date.split("/");
-        return new Date(Integer.parseInt(donnees[0]), Integer.parseInt(donnees[1]), Integer.parseInt(donnees[2]));
-    }
-
-    public static Date today() {
-        java.util.Date tmp = new java.util.Date();
-        return new Date(tmp.getDate() + 1, tmp.getMonth() + 1, tmp.getYear() + 1900);
+    @Override
+    public boolean equals(Object obj) {
+        Date d = (Date) obj;
+        return this.jour == d.jour && this.mois == d.mois && this.annee == d.annee;
     }
 
     enum Mois {

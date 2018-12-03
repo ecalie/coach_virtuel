@@ -1,7 +1,7 @@
 package vue;
 
-import modele.coaching.Coureur;
 import controleur.ActionValiderFicheObjectifs;
+import modele.coaching.Coureur;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +26,7 @@ public class FicheObjectifs extends JInternalFrame {
 
         this.getContentPane().setLayout(new BorderLayout());
 
-        JPanel centre = new JPanel(new GridLayout(3,2));
+        JPanel centre = new JPanel(new GridLayout(3, 2));
         centre.add(new JLabel("Distance"));
         centre.add(this.objectifDistance);
         centre.add(new JLabel("Durée"));
@@ -51,7 +51,7 @@ public class FicheObjectifs extends JInternalFrame {
         btn.addActionListener(new ActionValiderFicheObjectifs(this));
         this.getContentPane().add(btn, BorderLayout.SOUTH);
 
-        this.setSize(new Dimension(300,150));
+        this.setSize(new Dimension(300, 150));
     }
 
     public JTextField getObjectifDistance() {
