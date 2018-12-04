@@ -1,5 +1,7 @@
 package modele.coaching;
 
+import modele.agenda.Calendrier;
+import modele.agenda.Date;
 import modele.patron_observer.Observable;
 
 import java.io.*;
@@ -37,13 +39,20 @@ public class Coureur extends Observable implements Serializable {
      */
     private int prochaineSeance;
 
-    //////////////////
+    /**
+     * Calendrier du coureur.
+     */
+    private Calendrier calendrier;
+
+
+//////////////////
     // CONSTRUCTEUR //
     //////////////////
 
     public Coureur() {
         this.planEntrainement = new ArrayList<>();
         this.prochaineSeance = 0;
+        this.calendrier = new Calendrier();
 
         this.initialiser();
     }
@@ -84,6 +93,10 @@ public class Coureur extends Observable implements Serializable {
         return prochaineSeance;
     }
 
+    public Calendrier getCalendrier() {
+        return calendrier;
+    }
+
     ///////////////////////////////
     // GESTION PLAN ENTRAINEMENT //
     ///////////////////////////////
@@ -107,6 +120,7 @@ public class Coureur extends Observable implements Serializable {
             oos.flush();
             oos.close();
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -119,6 +133,7 @@ public class Coureur extends Observable implements Serializable {
             this.dateLimite = c.dateLimite;
             this.planEntrainement = c.planEntrainement;
             this.prochaineSeance = c.prochaineSeance;
+            this.calendrier = c.calendrier;
             ois.close();
 
         } catch (Exception e) {

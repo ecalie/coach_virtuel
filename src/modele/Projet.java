@@ -2,7 +2,7 @@ package modele;
 
 import modele.coaching.Coach;
 import modele.coaching.Coureur;
-import modele.coaching.Date;
+import modele.agenda.Date;
 import modele.coaching.SeanceFabrique;
 import modele.meteo.Meteo;
 import modele.meteo.PrevisionMeteo;

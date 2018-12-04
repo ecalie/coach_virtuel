@@ -1,5 +1,6 @@
 package modele.coaching;
 
+import modele.agenda.Date;
 import modele.patron_observer.IObserver;
 import modele.patron_observer.Observable;
 

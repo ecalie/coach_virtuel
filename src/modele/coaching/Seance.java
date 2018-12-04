@@ -1,5 +1,7 @@
 package modele.coaching;
 
+import modele.agenda.Date;
+
 import java.io.Serializable;
 
 public class Seance implements Serializable {

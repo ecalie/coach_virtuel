@@ -1,5 +1,6 @@
 package modele.coaching;
 
+import modele.agenda.Date;
 import modele.meteo.Meteo;
 
 import java.io.*;
@@ -92,6 +93,7 @@ public class SeanceFabrique implements Serializable {
 
             this.seancesPartagees = seances;
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

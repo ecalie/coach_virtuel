@@ -1,6 +1,6 @@
 package modele.meteo;
 
-import modele.coaching.Date;
+import modele.agenda.Date;
 
 import java.util.ArrayList;
 import java.util.List;

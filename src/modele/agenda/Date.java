@@ -1,4 +1,4 @@
-package modele.coaching;
+package modele.agenda;
 
 import java.io.Serializable;
 
@@ -7,8 +7,8 @@ public class Date implements Serializable {
     private int jour;
     private int mois;
     private int annee;
-    //private int heure;
-    //private int minute;
+    private int heure;
+    private int minute;
     //private Meteo prevision;
 
 
@@ -16,8 +16,8 @@ public class Date implements Serializable {
         this.jour = jour;
         this.mois = mois;
         this.annee = annee;
-        //  this.heure = heure;
-        // this.minute = minute;
+        this.heure = heure;
+        this.minute = minute;
     }
 
     public Date(int jour, int mois, int annee) {
@@ -59,6 +59,13 @@ public class Date implements Serializable {
         String[] donnees = date.split("/");
         return new Date(Integer.parseInt(donnees[0]), Integer.parseInt(donnees[1]), Integer.parseInt(donnees[2]));
     }
+
+    public static Date toDate(String date, String heure) {
+        String[] donnees = date.split("/");
+        String[] donnees2 = heure.split(":");
+        return new Date(Integer.parseInt(donnees[0]), Integer.parseInt(donnees[1]), Integer.parseInt(donnees[2]), Integer.parseInt(donnees2[0]), Integer.parseInt(donnees2[1]));
+    }
+
 
     public static Date today() {
         java.util.Date tmp = new java.util.Date();
@@ -102,7 +109,9 @@ public class Date implements Serializable {
 
     @Override
     public String toString() {
-        return this.jour + "/" + this.mois + "/" + this.annee;
+        if(this.heure == 0 && this.minute == 0)
+            return this.jour + "/" + this.mois + "/" + this.annee;
+        else return this.jour + "/" + this.mois + "/" + this.annee + "  " + this.heure + ":" + this.minute;
     }
 
     @Override

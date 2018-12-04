@@ -1,6 +1,6 @@
 package vue;
 
-import modele.coaching.Date;
+import modele.agenda.Date;
 import modele.meteo.Meteo;
 
 import javax.swing.*;

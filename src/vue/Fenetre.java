@@ -2,7 +2,7 @@ package vue;
 
 import controleur.*;
 import modele.Projet;
-import modele.coaching.Date;
+import modele.agenda.Date;
 import modele.coaching.SeanceFabrique;
 import modele.patron_observer.IObserver;
 import modele.patron_observer.Observable;
@@ -16,8 +16,10 @@ public class Fenetre extends JFrame implements IObserver {
 
     private FicheObjectifs ficheObjectifs;
     private FicheMeteo ficheMeteo;
+    private FicheSupprimerEvenement ficheSupprimerEvenement;
     private JDesktopPane desktop;
     private List<FicheSeance> fichesSeances;
+
 
     private Projet projet;
 
@@ -49,6 +51,10 @@ public class Fenetre extends JFrame implements IObserver {
         this.ficheMeteo = new FicheMeteo();
         this.desktop.add(ficheMeteo);
 
+        // La fiche supprimer événement
+        this.ficheSupprimerEvenement = new FicheSupprimerEvenement();
+        this.desktop.add(ficheSupprimerEvenement);
+
         // les fiches séances
         this.initialiserFicheSeances();
 
@@ -74,10 +80,20 @@ public class Fenetre extends JFrame implements IObserver {
         menuItemVoir.addActionListener(new ActionVoirMeteo(this));
         menuMeteo.add(menuItemVoir);
 
+        //      -menu agenda
+        JMenu menuAgenda = new JMenu("Agenda");
+        JMenuItem menuItemAjouter = new JMenuItem("Ajouter événement");
+        JMenuItem menuItemSupprimer = new JMenuItem("Supprimer événement");
+        menuItemAjouter.addActionListener(new ActionAjouterEvenement(this));
+        menuItemSupprimer.addActionListener(new ActionSupprimerEvenement(this));
+        menuAgenda.add(menuItemAjouter);
+        menuAgenda.add(menuItemSupprimer);
+
         // La barre des menus
         JMenuBar barre = new JMenuBar();
         barre.add(menuEntr);
         barre.add(menuMeteo);
+        barre.add(menuAgenda);
         this.setJMenuBar(barre);
 
         // Afficher la séance d'aujourd'hui s'il y en a une
@@ -178,5 +194,19 @@ public class Fenetre extends JFrame implements IObserver {
     public void dispose() {
         this.projet.enregistrerTout();
         super.dispose();
+    }
+
+    public void afficherFormEvenement() {
+
+        FicheAjouterEvenement ficheAjouterEvenement = new FicheAjouterEvenement(this.projet.getCoureur());
+        this.desktop.add(ficheAjouterEvenement);
+        ficheAjouterEvenement.setVisible(true);
+
+
+    }
+
+    public void afficherListEvenements() {
+        this.ficheSupprimerEvenement.maj(this.projet.getCoureur().getCalendrier());
+        this.ficheSupprimerEvenement.setVisible(true);
     }
 }

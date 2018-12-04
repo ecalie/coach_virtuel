@@ -2,7 +2,7 @@ package vue;
 
 import controleur.ActionTerminerSeance;
 import modele.coaching.Coureur;
-import modele.coaching.Date;
+import modele.agenda.Date;
 import modele.coaching.Seance;
 import modele.coaching.SeanceFabrique;
 import modele.meteo.Meteo;
