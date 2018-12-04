@@ -75,4 +75,25 @@ public class FicheSeance extends JInternalFrame {
         this.setSize(new Dimension(200,150));
         this.setVisible(true);
     }
+
+    public void reinitialiser() {
+        this.setTitle("" + seance.getDate());
+
+        this.getContentPane().removeAll();
+
+        JPanel form = new JPanel(new GridLayout(3, 2));
+        this.getContentPane().setLayout(new BorderLayout());
+
+        form.add(new JLabel("Distance"));
+        form.add(this.distance);
+        form.add(new JLabel("Durée"));
+        form.add(this.duree);
+        form.add(new JLabel("Date"));
+        form.add(this.date);
+
+        this.getContentPane().add(form, BorderLayout.CENTER);
+
+        this.setSize(new Dimension(180, 95));
+        this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+    }
 }

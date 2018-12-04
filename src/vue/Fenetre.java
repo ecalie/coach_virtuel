@@ -154,6 +154,7 @@ public class Fenetre extends JFrame implements IObserver {
                 x = 0;
                 y += 100;
             }
+            fs.reinitialiser();
             fs.show();
         }
     }

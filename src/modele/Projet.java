@@ -60,6 +60,7 @@ public class Projet {
         try {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("meteo"));
             oos.writeObject(this.previsions);
+            oos.writeObject(Date.today());
             oos.flush();
             oos.close();
         } catch (Exception e) {
@@ -70,6 +71,13 @@ public class Projet {
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream("meteo"));
             List<Meteo> meteos = (List<Meteo>) ois.readObject();
+            Date derniere = (Date) ois.readObject();
+
+            if (!derniere.equals(Date.today())) {
+                meteos = this.moduleMeteo.prevision5Jours(Date.today());
+                System.out.println("maj meteo");
+            }
+
             ois.close();
 
             return meteos;
