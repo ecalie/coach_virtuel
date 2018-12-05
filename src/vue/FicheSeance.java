@@ -65,7 +65,7 @@ public class FicheSeance extends JInternalFrame {
         JLabel labelMeteo = new JLabel(texte);
         this.getContentPane().add(labelMeteo, BorderLayout.NORTH);
 
-        Seance s = SeanceFabrique.getInstance().getSeance(Date.today(), meteo);
+        Seance s = SeanceFabrique.getInstance().getSeance(Date.today(), meteo, this.coureur.getCalendrier());
         this.distance.setText("" + s.getDistance());
 
         JButton btn = new JButton("Séance terminée");

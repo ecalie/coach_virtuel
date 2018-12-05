@@ -1,10 +1,10 @@
 package modele.agenda;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.PriorityQueue;
 
-public class Calendrier extends HashMap<Date, ArrayList<Evenement>> implements Serializable {
+public class Calendrier extends HashMap<Date, PriorityQueue<Evenement>> implements Serializable {
 
 
 

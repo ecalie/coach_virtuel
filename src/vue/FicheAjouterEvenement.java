@@ -37,6 +37,8 @@ public class FicheAjouterEvenement extends JInternalFrame {
         centre.add(new JLabel("Heure de début (hh:mm)"));
         centre.add(this.heureDebut);
         centre.add(new JLabel("Date de fin (jj/mm/aaaa)"));
+        // Pas d'événements sur plusieurs jours pour le moment
+        this.dateFin.setEditable(false);
         centre.add(this.dateFin);
         centre.add(new JLabel("Heure de fin (hh:mm)"));
         centre.add(this.heureFin);

@@ -116,7 +116,12 @@ public class Coureur extends Observable implements Serializable {
     public void enregistrer() {
         try {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("objectifs"));
-            oos.writeObject(this);
+            oos.writeObject(this.objectifDistance);
+            oos.writeObject(this.objectifDuree);
+            oos.writeObject(this.dateLimite);
+            oos.writeObject(this.planEntrainement);
+            oos.writeObject(this.prochaineSeance);
+            oos.writeObject(this.calendrier);
             oos.flush();
             oos.close();
         } catch (Exception e) {
@@ -127,13 +132,12 @@ public class Coureur extends Observable implements Serializable {
     public void initialiser() {
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream("objectifs"));
-            Coureur c = (Coureur) ois.readObject();
-            this.objectifDistance = c.objectifDistance;
-            this.objectifDuree = c.objectifDuree;
-            this.dateLimite = c.dateLimite;
-            this.planEntrainement = c.planEntrainement;
-            this.prochaineSeance = c.prochaineSeance;
-            this.calendrier = c.calendrier;
+           this.setObjectifDistance((Integer) ois.readObject());
+           this.setObjectifDuree((Integer) ois.readObject());
+           this.setDateLimite((Date) ois.readObject());
+           this.setPlanEntrainement((List<Integer>) ois.readObject());
+           this.prochaineSeance = (Integer) ois.readObject();
+           this.calendrier = (Calendrier) ois.readObject();
             ois.close();
 
         } catch (Exception e) {

@@ -69,8 +69,24 @@ public class Date implements Serializable {
 
     public static Date today() {
         java.util.Date tmp = new java.util.Date();
-        return new Date(tmp.getDate() + 1, tmp.getMonth() + 1, tmp.getYear() + 1900);
-        //return new Date(03,12,2018);
+       // return new Date(tmp.getDate() + 1, tmp.getMonth() + 1, tmp.getYear() + 1900);
+        return new Date(7,12,2018);
+    }
+
+    public int getHeure() {
+        return heure;
+    }
+
+    public int getMinute() {
+        return minute;
+    }
+
+    public void setHeure(int heure) {
+        this.heure = heure;
+    }
+
+    public void setMinute(int minute) {
+        this.minute = minute;
     }
 
     public int getMois() {
@@ -90,6 +106,10 @@ public class Date implements Serializable {
             tmpMois++;
 
         return this.jour + tmpMois + this.annee * 365 + (this.annee - 1) / 4;
+    }
+
+    public int ecartMinutes(Date other) {
+        return Math.abs((this.heure*60+this.minute)-(other.heure*60+other.minute));
     }
 
     /**
@@ -120,6 +140,8 @@ public class Date implements Serializable {
         return this.jour == d.jour && this.mois == d.mois && this.annee == d.annee;
     }
 
+
+
     enum Mois {
         JANVIER(1, 31),
         FEVRIER(2, 28),
@@ -149,5 +171,9 @@ public class Date implements Serializable {
         public int getMois() {
             return this.mois;
         }
+
+
     }
+
+
 }
