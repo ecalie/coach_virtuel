@@ -3,6 +3,7 @@ package vue;
 import controleur.*;
 import modele.Projet;
 import modele.agenda.Date;
+import modele.agenda.Evenement;
 import modele.coaching.SeanceFabrique;
 import modele.patron_observer.IObserver;
 import modele.patron_observer.Observable;
@@ -17,8 +18,10 @@ public class Fenetre extends JFrame implements IObserver {
     private FicheObjectifs ficheObjectifs;
     private FicheMeteo ficheMeteo;
     private FicheSupprimerEvenement ficheSupprimerEvenement;
+    private FicheModifierEvenement ficheModifierEvenement;
     private JDesktopPane desktop;
     private List<FicheSeance> fichesSeances;
+    private List<FicheEvenement> fichesEvenements;
     private FicheCalendrier ficheCalendrier;
 
 
@@ -56,12 +59,19 @@ public class Fenetre extends JFrame implements IObserver {
         this.ficheSupprimerEvenement = new FicheSupprimerEvenement();
         this.desktop.add(ficheSupprimerEvenement);
 
+        // La fiche modifier événement
+        this.ficheModifierEvenement = new FicheModifierEvenement();
+        this.desktop.add(ficheModifierEvenement);
+
         // La fiche calendrier
         this.ficheCalendrier = new FicheCalendrier(this.projet.getCoureur().getCalendrier());
         this.desktop.add(ficheCalendrier);
 
+        // La fiche calendrier
+        this.initialiserFichesEvenements();
+
         // les fiches séances
-        this.initialiserFicheSeances();
+        this.initialiserFichesSeances();
 
         // Les menus
         //      - menu entraiement
@@ -89,12 +99,15 @@ public class Fenetre extends JFrame implements IObserver {
         JMenu menuAgenda = new JMenu("Agenda");
         JMenuItem menuItemAjouter = new JMenuItem("Ajouter événement");
         JMenuItem menuItemSupprimer = new JMenuItem("Supprimer événement");
+        JMenuItem menuItemModifier = new JMenuItem("Modifier événement");
         JMenuItem menuItemVoirCalendrier = new JMenuItem("Voir le caldendrier");
         menuItemAjouter.addActionListener(new ActionAjouterEvenement(this));
         menuItemSupprimer.addActionListener(new ActionSupprimerEvenement(this));
+        menuItemModifier.addActionListener(new ActionModifierEvenement(this.ficheModifierEvenement, this.fichesEvenements));
         menuItemVoirCalendrier.addActionListener(new ActionAfficherCalendrier(this));
         menuAgenda.add(menuItemAjouter);
         menuAgenda.add(menuItemSupprimer);
+        menuAgenda.add(menuItemModifier);
         menuAgenda.add(menuItemVoirCalendrier);
 
         // La barre des menus
@@ -154,13 +167,23 @@ public class Fenetre extends JFrame implements IObserver {
         }
     }
 
-    public void initialiserFicheSeances() {
+    public void initialiserFichesSeances() {
         this.fichesSeances = new ArrayList<>();
         for (int i : this.projet.getCoureur().getPlanEntrainement()) {
             FicheSeance fs = new FicheSeance(this.projet.getCoureur(), SeanceFabrique.getInstance().getSeance(i));
             this.fichesSeances.add(fs);
             this.desktop.add(fs);
         }
+    }
+
+    public void initialiserFichesEvenements() {
+        this.fichesEvenements = new ArrayList<>();
+        for (Date d : this.projet.getCoureur().getCalendrier().keySet())
+            for (Evenement e : this.projet.getCoureur().getCalendrier().get(d)) {
+                FicheEvenement fe = new FicheEvenement(this.projet.getCoureur(), e);
+                this.fichesEvenements.add(fe);
+                this.desktop.add(fe);
+            }
     }
 
     public void afficherTerminees() {
@@ -194,7 +217,7 @@ public class Fenetre extends JFrame implements IObserver {
         for (FicheSeance fs : this.fichesSeances)
             this.desktop.remove(fs);
 
-        this.initialiserFicheSeances();
+        this.initialiserFichesSeances();
         this.afficherSeances(nbSeancesAffichees);
     }
 
@@ -205,11 +228,9 @@ public class Fenetre extends JFrame implements IObserver {
     }
 
     public void afficherFormEvenement() {
-
-        FicheAjouterEvenement ficheAjouterEvenement = new FicheAjouterEvenement(this.projet.getCoureur());
-        this.desktop.add(ficheAjouterEvenement);
-        ficheAjouterEvenement.setVisible(true);
-
+        FicheEvenement ficheEvenement = new FicheEvenement(this.projet.getCoureur());
+        this.desktop.add(ficheEvenement);
+        ficheEvenement.setVisible(true);
 
     }
 

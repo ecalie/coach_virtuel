@@ -1,12 +1,14 @@
 package vue;
 
 import controleur.ActionValiderAjouterEvemement;
+import modele.agenda.Date;
+import modele.agenda.Evenement;
 import modele.coaching.Coureur;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class FicheAjouterEvenement extends JInternalFrame {
+public class FicheEvenement extends JInternalFrame {
 
     private JTextField titreEvenement;
     private JTextField dateDebut;
@@ -14,10 +16,12 @@ public class FicheAjouterEvenement extends JInternalFrame {
     private JTextField dateFin;
     private JTextField heureFin;
 
+    private Evenement evenement;
+
     private Coureur coureur;
 
-    public FicheAjouterEvenement(Coureur coureur) {
-        super("Ajouter événement", false,true,false,false);
+    public FicheEvenement(Coureur coureur) {
+        super("Ajouter événement", false,false,false,false);
 
         this.titreEvenement = new JTextField();
         this.dateDebut = new JTextField();
@@ -39,18 +43,30 @@ public class FicheAjouterEvenement extends JInternalFrame {
         centre.add(new JLabel("Date de fin (jj/mm/aaaa)"));
         // Pas d'événements sur plusieurs jours pour le moment
         this.dateFin.setEditable(false);
+        this.dateFin.setBackground(Color.GRAY);
         centre.add(this.dateFin);
         centre.add(new JLabel("Heure de fin (hh:mm)"));
         centre.add(this.heureFin);
 
         this.getContentPane().add(centre, BorderLayout.CENTER);
 
-        JButton btn = new JButton("Créer");
+        JButton btn = new JButton("Créer / Modifier");
         btn.addActionListener(new ActionValiderAjouterEvemement(this));
         this.getContentPane().add(btn, BorderLayout.SOUTH);
 
+        this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         this.pack();
+    }
 
+    public FicheEvenement(Coureur coureur, Evenement evenement) {
+        this(coureur);
+        this.setTitle("Modifier évènement");
+        this.titreEvenement.setText(evenement.getTitre());
+        Date debut = evenement.getDateDebut();
+        this.dateDebut.setText(debut.getJour() + "/" + debut.getMois() + "/" + debut.getAnnee());
+        this.heureDebut.setText(debut.getHeure() + ":" + debut.getMinute());
+        Date fin = evenement.getDateDebut();
+        this.heureFin.setText(fin.getHeure() + ":" + fin.getMinute());
     }
 
     public JTextField getTitreEvenement() {
@@ -75,5 +91,13 @@ public class FicheAjouterEvenement extends JInternalFrame {
 
     public Coureur getCoureur() {
         return coureur;
+    }
+
+    public void setEvenement(Evenement evenement) {
+        this.evenement = evenement;
+    }
+
+    public Evenement getEvenement() {
+        return evenement;
     }
 }

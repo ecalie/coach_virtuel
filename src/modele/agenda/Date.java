@@ -9,8 +9,6 @@ public class Date implements Serializable {
     private int annee;
     private int heure;
     private int minute;
-    //private Meteo prevision;
-
 
     public Date(int jour, int mois, int annee, int heure, int minute) {
         this.jour = jour;
@@ -91,6 +89,14 @@ public class Date implements Serializable {
 
     public int getMois() {
         return mois;
+    }
+
+    public int getJour() {
+        return jour;
+    }
+
+    public int getAnnee() {
+        return annee;
     }
 
     /**
