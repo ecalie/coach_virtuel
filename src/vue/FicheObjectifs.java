@@ -45,8 +45,6 @@ public class FicheObjectifs extends JInternalFrame {
 
         this.getContentPane().add(centre, BorderLayout.CENTER);
 
-        this.getContentPane().add(new JLabel("Mes Objectifs"), BorderLayout.NORTH);
-
         JButton btn = new JButton("Valider");
         btn.addActionListener(new ActionValiderFicheObjectifs(this));
         this.getContentPane().add(btn, BorderLayout.SOUTH);

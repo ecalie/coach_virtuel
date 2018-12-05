@@ -44,7 +44,6 @@ public class FicheAjouterEvenement extends JInternalFrame {
         centre.add(this.heureFin);
 
         this.getContentPane().add(centre, BorderLayout.CENTER);
-        this.getContentPane().add(new JLabel("Créer un nouvel événement"), BorderLayout.NORTH);
 
         JButton btn = new JButton("Créer");
         btn.addActionListener(new ActionValiderAjouterEvemement(this));

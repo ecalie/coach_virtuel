@@ -19,6 +19,7 @@ public class Fenetre extends JFrame implements IObserver {
     private FicheSupprimerEvenement ficheSupprimerEvenement;
     private JDesktopPane desktop;
     private List<FicheSeance> fichesSeances;
+    private FicheCalendrier ficheCalendrier;
 
 
     private Projet projet;
@@ -55,6 +56,10 @@ public class Fenetre extends JFrame implements IObserver {
         this.ficheSupprimerEvenement = new FicheSupprimerEvenement();
         this.desktop.add(ficheSupprimerEvenement);
 
+        // La fiche calendrier
+        this.ficheCalendrier = new FicheCalendrier(this.projet.getCoureur().getCalendrier());
+        this.desktop.add(ficheCalendrier);
+
         // les fiches séances
         this.initialiserFicheSeances();
 
@@ -84,10 +89,13 @@ public class Fenetre extends JFrame implements IObserver {
         JMenu menuAgenda = new JMenu("Agenda");
         JMenuItem menuItemAjouter = new JMenuItem("Ajouter événement");
         JMenuItem menuItemSupprimer = new JMenuItem("Supprimer événement");
+        JMenuItem menuItemVoirCalendrier = new JMenuItem("Voir le caldendrier");
         menuItemAjouter.addActionListener(new ActionAjouterEvenement(this));
         menuItemSupprimer.addActionListener(new ActionSupprimerEvenement(this));
+        menuItemVoirCalendrier.addActionListener(new ActionAfficherCalendrier(this));
         menuAgenda.add(menuItemAjouter);
         menuAgenda.add(menuItemSupprimer);
+        menuAgenda.add(menuItemVoirCalendrier);
 
         // La barre des menus
         JMenuBar barre = new JMenuBar();
@@ -208,5 +216,10 @@ public class Fenetre extends JFrame implements IObserver {
     public void afficherListEvenements() {
         this.ficheSupprimerEvenement.maj(this.projet.getCoureur().getCalendrier());
         this.ficheSupprimerEvenement.setVisible(true);
+    }
+
+    public void afficherCalendrier() {
+        this.ficheCalendrier.maj();
+        this.ficheCalendrier.show();
     }
 }
