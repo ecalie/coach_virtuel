@@ -25,14 +25,13 @@ public class FicheCalendrier extends JInternalFrame {
         this.debut = Date.today();
         this.evenementsSemaine = new ArrayList<>();
 
+        // Initialiser la fenêtre
         this.getContentPane().setLayout(new BorderLayout());
-
         centre = new JPanel(new GridBagLayout());
-
         this.getContentPane().add(centre, BorderLayout.CENTER);
         this.getContentPane().setBackground(Color.LIGHT_GRAY);
 
-
+        // Ajouter les horaires
         for (int i = 0; i < 25; i++) {
             GridBagConstraints gbc = new GridBagConstraints();
             gbc.gridx = 0;
@@ -41,6 +40,7 @@ public class FicheCalendrier extends JInternalFrame {
             gbc.insets = new Insets(0, 0, 0, 5);
         }
 
+        // Naviguer entre les semaines
         JButton btnSuiv = new JButton(">>");
         btnSuiv.addActionListener(new ActionSemaineSuivante(this));
         GridBagConstraints gbc = new GridBagConstraints();
@@ -58,11 +58,15 @@ public class FicheCalendrier extends JInternalFrame {
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
     }
 
+    /**
+     * Mettre à jour la fenêtre.
+     */
     public void maj() {
+        // Supprimer les dates et évènements
         for (Component c : evenementsSemaine)
             this.centre.remove(c);
 
-
+        // Ajouter les dates
         for (int i = 0; i < 7; i++) {
             JLabel date = new JLabel(debut.plus(i).toString());
             GridBagConstraints gbc = new GridBagConstraints();
@@ -73,6 +77,7 @@ public class FicheCalendrier extends JInternalFrame {
             this.evenementsSemaine.add(date);
         }
 
+        // Ajouter les évènements
         for (int i = 0; i < 7; i++) {
             if (calendrier.containsKey(debut.plus(i)))
                 for (Evenement e : calendrier.get(debut.plus(i))) {

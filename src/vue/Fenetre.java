@@ -80,7 +80,7 @@ public class Fenetre extends JFrame implements IObserver {
         JMenuItem menuItemSeance = new JMenuItem("Voir la prochaine séance");
         JMenuItem menuItemSeances = new JMenuItem("Voir toutes les prochaines séances");
         JMenuItem menuItemSeancesTerminees = new JMenuItem("Voir les séances terminées");
-        menuItemDef.addActionListener(new ActionDefinirObjectifs(this));
+        menuItemDef.addActionListener(new ActionDefinirObjectifs(this.ficheObjectifs));
         menuItemSeance.addActionListener(new ActionAfficherSeance(this));
         menuItemSeances.addActionListener(new ActionAfficherSeances(this));
         menuItemSeancesTerminees.addActionListener(new ActionAfficherTerminees(this));
@@ -102,9 +102,9 @@ public class Fenetre extends JFrame implements IObserver {
         JMenuItem menuItemModifier = new JMenuItem("Modifier événement");
         JMenuItem menuItemVoirCalendrier = new JMenuItem("Voir le caldendrier");
         menuItemAjouter.addActionListener(new ActionAjouterEvenement(this));
-        menuItemSupprimer.addActionListener(new ActionSupprimerEvenement(this));
+        menuItemSupprimer.addActionListener(new ActionSupprimerEvenement(this.ficheSupprimerEvenement, this.projet.getCoureur().getCalendrier()));
         menuItemModifier.addActionListener(new ActionModifierEvenement(this.ficheModifierEvenement, this.fichesEvenements));
-        menuItemVoirCalendrier.addActionListener(new ActionAfficherCalendrier(this));
+        menuItemVoirCalendrier.addActionListener(new ActionAfficherCalendrier(this.ficheCalendrier));
         menuAgenda.add(menuItemAjouter);
         menuAgenda.add(menuItemSupprimer);
         menuAgenda.add(menuItemModifier);
@@ -133,15 +133,15 @@ public class Fenetre extends JFrame implements IObserver {
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
-    public void afficherFicheObjectifs() {
-        this.ficheObjectifs.setVisible(true);
-    }
-
     public void afficherMeteo() {
         this.ficheMeteo.maj(this.projet.getPrevisions());
         this.ficheMeteo.setVisible(true);
     }
 
+    /**
+     * Afficher les fiches des prochaines séances.
+     * @param nb Positif si afficher toutes les prochaines séances, égal à 1 pour afficher seulement la suivante
+     */
     public void afficherSeances(int nb) {
         for (FicheSeance fs : this.fichesSeances)
             fs.hide();
@@ -167,6 +167,9 @@ public class Fenetre extends JFrame implements IObserver {
         }
     }
 
+    /**
+     * Initialiser la liste des fiches séances à partie de plan d'entrainement.
+     */
     public void initialiserFichesSeances() {
         this.fichesSeances = new ArrayList<>();
         for (int i : this.projet.getCoureur().getPlanEntrainement()) {
@@ -176,6 +179,9 @@ public class Fenetre extends JFrame implements IObserver {
         }
     }
 
+    /**
+     * Initialiser la liste des fiches évènement à partir du calendrier du coureur.
+     */
     public void initialiserFichesEvenements() {
         this.fichesEvenements = new ArrayList<>();
         for (Date d : this.projet.getCoureur().getCalendrier().keySet())
@@ -186,6 +192,9 @@ public class Fenetre extends JFrame implements IObserver {
             }
     }
 
+    /**
+     * Afficher toutes les séances terminées.
+     */
     public void afficherTerminees() {
         int x = 0;
         int y = 0;
@@ -204,6 +213,15 @@ public class Fenetre extends JFrame implements IObserver {
             fs.reinitialiser();
             fs.show();
         }
+    }
+
+    /**
+     * Afficher un nouveau formulare pour créer un évènement.
+     */
+    public void afficherFormEvenement() {
+        FicheEvenement ficheEvenement = new FicheEvenement(this.projet.getCoureur());
+        this.desktop.add(ficheEvenement);
+        ficheEvenement.setVisible(true);
     }
 
     @Override
@@ -225,22 +243,5 @@ public class Fenetre extends JFrame implements IObserver {
     public void dispose() {
         this.projet.enregistrerTout();
         super.dispose();
-    }
-
-    public void afficherFormEvenement() {
-        FicheEvenement ficheEvenement = new FicheEvenement(this.projet.getCoureur());
-        this.desktop.add(ficheEvenement);
-        ficheEvenement.setVisible(true);
-
-    }
-
-    public void afficherListEvenements() {
-        this.ficheSupprimerEvenement.maj(this.projet.getCoureur().getCalendrier());
-        this.ficheSupprimerEvenement.setVisible(true);
-    }
-
-    public void afficherCalendrier() {
-        this.ficheCalendrier.maj();
-        this.ficheCalendrier.show();
     }
 }

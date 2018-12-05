@@ -54,6 +54,10 @@ public class FicheSeance extends JInternalFrame {
         return seance;
     }
 
+    /**
+     * Mettre en forme la fenetre pour indique la météo de la séance du jour.
+     * @param meteo La météo du jour
+     */
     public void majEtAfficher(Meteo meteo) {
         this.setTitle("La séance d'aujourd'hui");
         String texte = "La météo du jour est " + meteo;
@@ -76,6 +80,9 @@ public class FicheSeance extends JInternalFrame {
         this.setVisible(true);
     }
 
+    /**
+     * Réinitialiser au format classique la fenetre.
+     */
     public void reinitialiser() {
         this.setTitle("" + seance.getDate());
 

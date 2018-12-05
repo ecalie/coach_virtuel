@@ -1,19 +1,21 @@
 package controleur;
 
 import vue.Fenetre;
+import vue.FicheCalendrier;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ActionAfficherCalendrier implements ActionListener {
-    private Fenetre fenetre;
+    private FicheCalendrier ficheCalendrier;
 
-    public ActionAfficherCalendrier(Fenetre fenetre) {
-        this.fenetre = fenetre;
+    public ActionAfficherCalendrier(FicheCalendrier ficheCalendrier) {
+        this.ficheCalendrier = ficheCalendrier;
     }
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        this.fenetre.afficherCalendrier();
+        this.ficheCalendrier.maj();
+        this.ficheCalendrier.show();
     }
 }

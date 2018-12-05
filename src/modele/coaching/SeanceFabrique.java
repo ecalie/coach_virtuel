@@ -26,9 +26,9 @@ public class SeanceFabrique implements Serializable {
         return singleton;
     }
 
-    ////////////////////////////////////////
-    // RECUPERER UNE SEANCE DE A FABRIQUE //
-    ////////////////////////////////////////
+    /////////////////////////////////////////
+    // RECUPERER UNE SEANCE DE LA FABRIQUE //
+    /////////////////////////////////////////
 
     public Seance getSeance(int key) {
         if (this.seancesPartagees.containsKey(key)) {
@@ -44,15 +44,19 @@ public class SeanceFabrique implements Serializable {
             Seance seance = seancesPartagees.get(key);
             Boolean tempsDispo = false;
 
+            // mise à jour contextuelle : le calendrier
             if (calendrier.containsKey(seance.getDate())) {
                 PriorityQueue<Evenement> listeEvenements = calendrier.get(seance.getDate());
+                // on cherche à savoir si il y a un créaneau sufisament grand dans la journée pour la séance
                 if (listeEvenements.size() > 0) {
                     Iterator<Evenement> iterator = listeEvenements.iterator();
                     Evenement evenementCourant = iterator.next();
 
                     if (listeEvenements.size() == 1)
+                        // Si un évènement en regarde avant et arpès si reste du temps
                         tempsDispo = 24 * 60 - (evenementCourant.getDateDebut().ecartMinutes(evenementCourant.getDateFin())) > seance.getDuree() + 30;
                     else {
+                        // sinon on regarde entre chaque évènement s'il y a un créneau suffisant
                         Evenement evenementSuivant = iterator.next();
                         for (int i = 0; i < listeEvenements.size() - 1; i++) {
 

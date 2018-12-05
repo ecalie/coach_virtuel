@@ -1,21 +1,25 @@
 package controleur;
 
+import modele.agenda.Calendrier;
 import vue.Fenetre;
+import vue.FicheSupprimerEvenement;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ActionSupprimerEvenement implements ActionListener {
 
-    Fenetre fenetre;
+    FicheSupprimerEvenement ficheSupprimerEvenement;
+    Calendrier calendrier;
 
-    public ActionSupprimerEvenement(Fenetre fenetre) {
-        this.fenetre = fenetre;
+    public ActionSupprimerEvenement(FicheSupprimerEvenement ficheSupprimerEvenement, Calendrier calendrier) {
+        this.calendrier = calendrier;
+        this.ficheSupprimerEvenement = ficheSupprimerEvenement;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        this.fenetre.afficherListEvenements();
-
+        this.ficheSupprimerEvenement.maj(this.calendrier);
+        this.ficheSupprimerEvenement.setVisible(true);
     }
 }

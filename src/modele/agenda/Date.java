@@ -79,14 +79,6 @@ public class Date implements Serializable {
         return minute;
     }
 
-    public void setHeure(int heure) {
-        this.heure = heure;
-    }
-
-    public void setMinute(int minute) {
-        this.minute = minute;
-    }
-
     public int getMois() {
         return mois;
     }

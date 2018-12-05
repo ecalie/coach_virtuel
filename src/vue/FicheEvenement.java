@@ -65,8 +65,9 @@ public class FicheEvenement extends JInternalFrame {
         Date debut = evenement.getDateDebut();
         this.dateDebut.setText(debut.getJour() + "/" + debut.getMois() + "/" + debut.getAnnee());
         this.heureDebut.setText(debut.getHeure() + ":" + debut.getMinute());
-        Date fin = evenement.getDateDebut();
+        Date fin = evenement.getDateFin();
         this.heureFin.setText(fin.getHeure() + ":" + fin.getMinute());
+        this.evenement = evenement;
     }
 
     public JTextField getTitreEvenement() {

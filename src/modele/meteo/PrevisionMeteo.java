@@ -8,9 +8,11 @@ import java.util.List;
 
 public class PrevisionMeteo {
 
-    public PrevisionMeteo() {
-    }
-
+    /**
+     * Prévoir la météo pour une date donnée.
+     * @param date La date
+     * @return La météo de cette date
+     */
     public Meteo previsionJour(Date date) {
         double probaSoleil = 0;
         double probaPluie = 0;
@@ -68,7 +70,12 @@ public class PrevisionMeteo {
 
     }
 
-    public List<Meteo> prevision5Jours(Date date) {
+    /**
+     * Prévoir la météo des cins prochaine jours.
+     * @return La météo des 5 prochaines jours.
+     */
+    public List<Meteo> prevision5Jours() {
+        Date date = Date.today();
 
         List<Meteo> previsions = new ArrayList<>();
 

@@ -13,6 +13,10 @@ public class FicheSupprimerEvenement extends JInternalFrame {
         super("Supprimer événement", false, true, false, false);
     }
 
+    /**
+     * Mettre à jour la fenêtre.
+     * @param calendrier Le calendrier avec les évènements existants.
+     */
     public void maj(Calendrier calendrier) {
         int nbEvenements = 0;
         for (Date date : calendrier.keySet())
