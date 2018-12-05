@@ -52,6 +52,7 @@ public class FicheObjectifs extends JInternalFrame {
         this.getContentPane().add(btn, BorderLayout.SOUTH);
 
         this.setSize(new Dimension(300, 150));
+        this.setDefaultCloseOperation(HIDE_ON_CLOSE);
     }
 
     public JTextField getObjectifDistance() {

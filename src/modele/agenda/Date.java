@@ -69,8 +69,8 @@ public class Date implements Serializable {
 
     public static Date today() {
         java.util.Date tmp = new java.util.Date();
-       // return new Date(tmp.getDate() + 1, tmp.getMonth() + 1, tmp.getYear() + 1900);
-        return new Date(7,12,2018);
+        return new Date(tmp.getDate() + 1, tmp.getMonth() + 1, tmp.getYear() + 1900);
+        //return new Date(7,12,2018);
     }
 
     public int getHeure() {

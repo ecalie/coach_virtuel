@@ -31,6 +31,7 @@ public class FicheMeteo extends JInternalFrame {
         this.getContentPane().add(form, BorderLayout.CENTER);
 
         this.pack();
+        this.setDefaultCloseOperation(HIDE_ON_CLOSE);
     }
 
 }

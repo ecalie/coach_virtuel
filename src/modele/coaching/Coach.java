@@ -82,9 +82,9 @@ public class Coach implements IObserver {
             } else if (seance % 3 == 2) {
                 dureeSeance = (int) (coureur.getObjectifDuree() * 1.25);
                 // augmenter l'allure semaine après semaine
-                //      -calculer le numéro de la "semaine" (3séances)
+                //      -calculer le numéro de la "semaine" (3 séances)
                 int numSemaine = (seance - 4) / 3 + 1;
-                //      -calculer le nombre de semaines 'inermédaires"
+                //      -calculer le nombre de semaines "intermédaire"
                 int nbSemaines = nbSeances / 3 - 2;
                 //      -calculer l'allure
                 if (numSemaine <= nbSemaines / 3)

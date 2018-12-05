@@ -64,7 +64,8 @@ public class SeanceFabrique implements Serializable {
                             evenementSuivant = iterator.next();
                         }
                     }
-                } else tempsDispo = true;
+                } else
+                    tempsDispo = true;
             } else {
                 tempsDispo = true;
             }
