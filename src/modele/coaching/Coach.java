@@ -26,7 +26,7 @@ public class Coach implements IObserver {
     // CREATION D'UN PLAN D'ENTRAINEMENT //
     ///////////////////////////////////////
 
-    public List<Integer> planEntrainement(Coureur coureur) {
+    public List<Integer> planEntrainement(Coureur coureur) throws ManqueSeanceException {
         // calculer le nombre de séances (une tous 3 jours)
         // on commence demain
         Date debut = Date.today().plus(1);
@@ -37,7 +37,7 @@ public class Coach implements IObserver {
         
         // erreur si moins de 12 séances
         if (nbSeances < 13)
-            return null;
+            throw new ManqueSeanceException();
 
         // construire le plan d'entrainement
         List<Integer> res = new ArrayList<>();
@@ -150,7 +150,7 @@ public class Coach implements IObserver {
     /////////////////////////////////////
 
     @Override
-    public void notifier(Observable observable) {
+    public void notifier(Observable observable) throws ManqueSeanceException {
         // Mettre à jour le plan d'entrainement
         ((Coureur) observable).setPlanEntrainement(this.planEntrainement((Coureur) observable));
     }

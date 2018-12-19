@@ -1,7 +1,6 @@
 package controleur;
 
 import modele.agenda.Calendrier;
-import modele.agenda.ComparerHeure;
 import modele.agenda.Date;
 import modele.agenda.Evenement;
 import vue.FicheEvenement;
@@ -38,16 +37,20 @@ public class ActionValiderAjouterEvemement implements ActionListener {
         else
             dateFin = Date.toDate(this.ficheEvenement.getDateDebut().getText(), this.ficheEvenement.getHeureFin().getText());
 
+        // on supprime l'évènement au calendrier si modification
+        Calendrier calendrier = this.ficheEvenement.getCoureur().getCalendrier();
+        if (this.ficheEvenement.getEvenement() != null)
+            calendrier.get(evenement.getDateDebut()).remove(evenement);
+
+        // mettre à jour les dates
         evenement.setDateDebut(dateDebut);
         evenement.setDateFin(dateFin);
 
-        // on jaoute l'évènement au calendrier si création
-        Calendrier calendrier = this.ficheEvenement.getCoureur().getCalendrier();
-        if (this.ficheEvenement.getEvenement() == null) {
-            if (!calendrier.containsKey(dateDebut))
-                calendrier.put(dateDebut, new PriorityQueue<>(10, new ComparerHeure()));
-            calendrier.get(dateDebut).add(evenement);
-        }
+        // ajouter l'évènement au calendrier
+        if (!calendrier.containsKey(dateDebut))
+            calendrier.put(dateDebut, new PriorityQueue<>());
+        calendrier.get(dateDebut).add(evenement);
+
 
         // mettre à jour l'evènement
         this.ficheEvenement.setEvenement(evenement);

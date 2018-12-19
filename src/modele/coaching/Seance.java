@@ -14,6 +14,8 @@ public class Seance implements Serializable {
     // CONSTRUCTEUR //
     //////////////////
 
+    public Seance() {}
+
     public Seance(int distance, int duree, Date date) {
         this.distance = distance;
         this.duree = duree;
@@ -32,15 +34,19 @@ public class Seance implements Serializable {
         return duree;
     }
 
-    public void setDistance(int distance) {
-        this.distance = distance;
-    }
-
     public Date getDate() {
         return date;
     }
 
+    public void setDistance(int distance) {
+        this.distance = distance;
+    }
+
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public void setDuree(int duree) {
+        this.duree = duree;
     }
 }

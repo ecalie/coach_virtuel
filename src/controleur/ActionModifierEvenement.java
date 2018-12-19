@@ -1,5 +1,6 @@
 package controleur;
 
+import modele.agenda.Calendrier;
 import vue.FicheEvenement;
 import vue.FicheModifierEvenement;
 
@@ -9,16 +10,16 @@ import java.util.List;
 
 public class ActionModifierEvenement implements ActionListener {
     FicheModifierEvenement ficheModifierEvenement;
-    List<FicheEvenement> ficheEvenements;
+    Calendrier calendrier;
 
-    public ActionModifierEvenement(FicheModifierEvenement ficheModifierEvenement, List<FicheEvenement> ficheEvenements) {
-        this.ficheEvenements = ficheEvenements;
+    public ActionModifierEvenement(FicheModifierEvenement ficheModifierEvenement, Calendrier calendrier) {
+        this.calendrier = calendrier;
         this.ficheModifierEvenement = ficheModifierEvenement;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        this.ficheModifierEvenement.maj(ficheEvenements);
+        this.ficheModifierEvenement.maj(calendrier);
         this.ficheModifierEvenement.show();
     }
 }

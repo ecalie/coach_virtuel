@@ -1,5 +1,7 @@
 package modele.agenda;
 
+import modele.patron_observer.Observable;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.PriorityQueue;

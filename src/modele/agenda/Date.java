@@ -4,11 +4,13 @@ import java.io.Serializable;
 
 public class Date implements Serializable {
 
-    private int jour;
-    private int mois;
-    private int annee;
-    private int heure;
-    private int minute;
+    protected int jour;
+    protected int mois;
+    protected int annee;
+    protected int heure;
+    protected int minute;
+
+    public Date() {}
 
     public Date(int jour, int mois, int annee, int heure, int minute) {
         this.jour = jour;
@@ -21,6 +23,54 @@ public class Date implements Serializable {
     public Date(int jour, int mois, int annee) {
         this(jour, mois, annee, 0, 0);
     }
+
+
+    ////////////////
+    // ACCESSEURS //
+    ////////////////
+
+    public int getHeure() {
+        return heure;
+    }
+
+    public int getMinute() {
+        return minute;
+    }
+
+    public int getMois() {
+        return mois;
+    }
+
+    public int getJour() {
+        return jour;
+    }
+
+    public int getAnnee() {
+        return annee;
+    }
+
+    public void setJour(int jour) {
+        this.jour = jour;
+    }
+
+    public void setMois(int mois) {
+        this.mois = mois;
+    }
+
+    public void setAnnee(int annee) {
+        this.annee = annee;
+    }
+
+    public void setHeure(int heure) {
+        this.heure = heure;
+    }
+
+    public void setMinute(int minute) {
+        this.minute = minute;
+    }
+    ///////////////////////
+    // GESTION DES DATES //
+    ///////////////////////
 
     /**
      * Calculer une date à partir d'un écart depuis la date de référence.
@@ -69,26 +119,6 @@ public class Date implements Serializable {
         java.util.Date tmp = new java.util.Date();
         return new Date(tmp.getDate() + 1, tmp.getMonth() + 1, tmp.getYear() + 1900);
         //return new Date(7,12,2018);
-    }
-
-    public int getHeure() {
-        return heure;
-    }
-
-    public int getMinute() {
-        return minute;
-    }
-
-    public int getMois() {
-        return mois;
-    }
-
-    public int getJour() {
-        return jour;
-    }
-
-    public int getAnnee() {
-        return annee;
     }
 
     /**

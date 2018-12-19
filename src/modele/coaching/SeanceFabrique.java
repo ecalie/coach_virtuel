@@ -5,6 +5,8 @@ import modele.agenda.Date;
 import modele.agenda.Evenement;
 import modele.meteo.Meteo;
 
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
 import java.io.*;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -116,10 +118,11 @@ public class SeanceFabrique implements Serializable {
 
     public void enregistrer() {
         try {
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("seances"));
-            oos.writeObject(this.seancesPartagees);
-            oos.flush();
-            oos.close();
+            XMLEncoder e = new XMLEncoder(
+                    new BufferedOutputStream(
+                            new FileOutputStream("seances.xml")));
+            e.writeObject(this.seancesPartagees);
+            e.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -127,10 +130,11 @@ public class SeanceFabrique implements Serializable {
 
     public void initialiser() {
         try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("seances"));
-            Hashtable<Integer, Seance> seances = (Hashtable<Integer, Seance>) ois.readObject();
-            ois.close();
-
+            XMLDecoder d = new XMLDecoder(
+                    new BufferedInputStream(
+                            new FileInputStream("seances.xml")));
+            Hashtable<Integer, Seance> seances = (Hashtable<Integer, Seance>) d.readObject();
+            d.close();
             this.seancesPartagees = seances;
         } catch (Exception e) {
             e.printStackTrace();

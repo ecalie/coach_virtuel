@@ -60,7 +60,7 @@ public class Fenetre extends JFrame implements IObserver {
         this.desktop.add(ficheSupprimerEvenement);
 
         // La fiche modifier événement
-        this.ficheModifierEvenement = new FicheModifierEvenement();
+        this.ficheModifierEvenement = new FicheModifierEvenement(this);
         this.desktop.add(ficheModifierEvenement);
 
         // La fiche calendrier
@@ -103,7 +103,7 @@ public class Fenetre extends JFrame implements IObserver {
         JMenuItem menuItemVoirCalendrier = new JMenuItem("Voir le caldendrier");
         menuItemAjouter.addActionListener(new ActionAjouterEvenement(this));
         menuItemSupprimer.addActionListener(new ActionSupprimerEvenement(this.ficheSupprimerEvenement, this.projet.getCoureur().getCalendrier()));
-        menuItemModifier.addActionListener(new ActionModifierEvenement(this.ficheModifierEvenement, this.fichesEvenements));
+        menuItemModifier.addActionListener(new ActionModifierEvenement(this.ficheModifierEvenement, this.projet.getCoureur().getCalendrier()));
         menuItemVoirCalendrier.addActionListener(new ActionAfficherCalendrier(this.ficheCalendrier));
         menuAgenda.add(menuItemAjouter);
         menuAgenda.add(menuItemSupprimer);
@@ -131,6 +131,14 @@ public class Fenetre extends JFrame implements IObserver {
 
         // Arrêter l'applicatin à la fermeture de la fenêtre
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }
+
+    public JDesktopPane getDesktop() {
+        return desktop;
+    }
+
+    public Projet getProjet() {
+        return projet;
     }
 
     public void afficherMeteo() {

@@ -9,10 +9,10 @@ public class Observable {
     private List<IObserver> observateurs;
 
     public Observable() {
-        observateurs = new LinkedList<IObserver>();
+        observateurs = new LinkedList<>();
     }
 
-    public void notifierObservateurs() {
+    public void notifierObservateurs() throws Exception {
         Iterator<IObserver> it = observateurs.iterator();
         // Notifier tous les observers
         while (it.hasNext()) {

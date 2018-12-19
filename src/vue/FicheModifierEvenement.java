@@ -1,30 +1,39 @@
 package vue;
 
-import controleur.ActionAfficherEvemement;
-import controleur.ActionAjouterEvenement;
-import controleur.ActionModifierEvenement;
-import controleur.ActionValiderAjouterEvemement;
+import controleur.*;
+import modele.agenda.Calendrier;
+import modele.agenda.Date;
+import modele.agenda.Evenement;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
 public class FicheModifierEvenement extends JInternalFrame {
-    public FicheModifierEvenement() {
+    private Fenetre fenetre;
+
+    public FicheModifierEvenement(Fenetre fenetre) {
         super("Modifier évènement", false, true, false, false);
+        this.fenetre = fenetre;
     }
 
-    public void maj(List<FicheEvenement> fiches) {
-        JPanel form = new JPanel(new GridLayout(fiches.size(), 4));
+    public void maj(Calendrier calendrier) {
+        this.getContentPane().removeAll();
+        int nbEvenements = 0;
+        for (Date date : calendrier.keySet())
+            nbEvenements += calendrier.get(date).size();
+        JPanel form = new JPanel(new GridLayout(nbEvenements, 4));
         this.getContentPane().setLayout(new BorderLayout());
 
-        for (FicheEvenement f : fiches) {
-            form.add(new JLabel(f.getTitreEvenement().getText()));
-            form.add(new JLabel(f.getDateDebut().getText()));
-            form.add(new JLabel(f.getDateFin().getText()));
-            JButton btn = new JButton("Modifier");
-            btn.addActionListener(new ActionAfficherEvemement(f));
-            form.add(btn);
+        for (Date date : calendrier.keySet()) {
+            for (Evenement evenement : calendrier.get(date)) {
+                form.add(new JLabel(evenement.getTitre()));
+                form.add(new JLabel(evenement.getDateDebut().toString()));
+                form.add(new JLabel(evenement.getDateFin().toString()));
+                JButton btn = new JButton("Modifier");
+                btn.addActionListener(new ActionAfficherEvemement(fenetre, evenement));
+                form.add(btn);
+            }
         }
 
         this.getContentPane().add(form, BorderLayout.CENTER);

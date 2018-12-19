@@ -4,6 +4,8 @@ import modele.agenda.Calendrier;
 import modele.agenda.Date;
 import modele.patron_observer.Observable;
 
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,35 +19,35 @@ public class Coureur extends Observable implements Serializable {
     /**
      * Caractéritique de distance du prochain objectif.
      */
-    private int objectifDistance;
+    protected int objectifDistance;
 
     /**
      * Caractéritique de temps du prochain objectif.
      */
-    private int objectifDuree;
+    protected int objectifDuree;
 
     /**
      * Date limite pour remplir l'objectif.
      */
-    private Date dateLimite;
+    protected Date dateLimite;
 
     /**
      * Liste des clés des séances de la fabrique pour remplir le prochain objectif.
      */
-    private List<Integer> planEntrainement;
+    protected List<Integer> planEntrainement;
 
     /**
      * Indice de la prochaine seance.
      */
-    private int prochaineSeance;
+    protected int prochaineSeance;
 
     /**
      * Calendrier du coureur.
      */
-    private Calendrier calendrier;
+    protected Calendrier calendrier;
 
 
-//////////////////
+    //////////////////
     // CONSTRUCTEUR //
     //////////////////
 
@@ -89,20 +91,24 @@ public class Coureur extends Observable implements Serializable {
         return planEntrainement;
     }
 
+    public void setPlanEntrainement(List<Integer> planEntrainement) {
+        this.planEntrainement = planEntrainement;
+    }
+
     public int getProchaineSeance() {
         return prochaineSeance;
     }
 
-    public Calendrier getCalendrier() {
-        return calendrier;
+    public void setCalendrier(Calendrier calendrier) {
+        this.calendrier = calendrier;
     }
 
     ///////////////////////////////
     // GESTION PLAN ENTRAINEMENT //
     ///////////////////////////////
 
-    public void setPlanEntrainement(List<Integer> planEntrainement) {
-        this.planEntrainement = planEntrainement;
+    public Calendrier getCalendrier() {
+        return calendrier;
     }
 
     public void terminerSeance(Seance seance) {
@@ -115,15 +121,16 @@ public class Coureur extends Observable implements Serializable {
 
     public void enregistrer() {
         try {
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("objectifs"));
-            oos.writeObject(this.objectifDistance);
-            oos.writeObject(this.objectifDuree);
-            oos.writeObject(this.dateLimite);
-            oos.writeObject(this.planEntrainement);
-            oos.writeObject(this.prochaineSeance);
-            oos.writeObject(this.calendrier);
-            oos.flush();
-            oos.close();
+            XMLEncoder e = new XMLEncoder(
+                    new BufferedOutputStream(
+                            new FileOutputStream("objectifs.xml")));
+            e.writeObject(this.objectifDistance);
+            e.writeObject(this.objectifDuree);
+            e.writeObject(this.dateLimite);
+            e.writeObject(this.planEntrainement);
+            e.writeObject(this.prochaineSeance);
+            e.writeObject(this.calendrier);
+            e.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -131,16 +138,19 @@ public class Coureur extends Observable implements Serializable {
 
     public void initialiser() {
         try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("objectifs"));
-           this.setObjectifDistance((Integer) ois.readObject());
-           this.setObjectifDuree((Integer) ois.readObject());
-           this.setDateLimite((Date) ois.readObject());
-           this.setPlanEntrainement((List<Integer>) ois.readObject());
-           this.prochaineSeance = (Integer) ois.readObject();
-           this.calendrier = (Calendrier) ois.readObject();
-            ois.close();
+            XMLDecoder d = new XMLDecoder(
+                    new BufferedInputStream(
+                            new FileInputStream("objectifs.xml")));
+            this.objectifDistance = (Integer) d.readObject();
+            this.objectifDuree = (Integer) d.readObject();
+            this.dateLimite = (Date) d.readObject();
+            this.planEntrainement = (List<Integer>) d.readObject();
+            this.prochaineSeance = (Integer) d.readObject();
+            this.calendrier = (Calendrier) d.readObject();
+            d.close();
 
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

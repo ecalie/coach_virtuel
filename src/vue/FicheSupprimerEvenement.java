@@ -18,6 +18,7 @@ public class FicheSupprimerEvenement extends JInternalFrame {
      * @param calendrier Le calendrier avec les évènements existants.
      */
     public void maj(Calendrier calendrier) {
+        this.getContentPane().removeAll();
         int nbEvenements = 0;
         for (Date date : calendrier.keySet())
             nbEvenements += calendrier.get(date).size();

@@ -78,6 +78,11 @@ public class FicheSeance extends JInternalFrame {
 
         this.setSize(new Dimension(200,150));
         this.setVisible(true);
+
+        if (!s.getDate().equals(Date.today())) {
+            this.reinitialiser();
+            this.hide();
+        }
     }
 
     /**
